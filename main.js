@@ -9,7 +9,6 @@ let win;
 let token;
 
 function createWindows() {
-    
     win = new BrowserWindow({
                 height:700,
                 width: 1200, 
@@ -36,7 +35,7 @@ function createWindows() {
     win.setMenu(null)
 
     // win.setFullScreen(true)
-    win.setTitle("Fuprox Teller")
+    win.setTitle("Fuprox Teller Two")
 }
 
 app.on('ready',() =>{

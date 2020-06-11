@@ -135,13 +135,12 @@ $("#verifyKey").on("click",()=>{
 	// get branch icons
 const updateIcons = () =>{
 getData(`${link}/service/icons/get`,"POST",{"branch_id":branch_id} ,(data)=>{
-	console.log(">>>>>>>data",data)
+
 	if(data){
 		let handle = $("#icon_id")
 		let final  = ""
 		data.map((item,index)=>{
 			let spl = item.name.split(" ");
-			console.log("spl>>>>>>>",spl)
 			let king = item.name.split(" ").length > 1 ? `${spl[0]}_${spl[1]}` : item.name ;
 			final += `<option id="option_${king}" attr-id="${item.id}">${item.name}</option>`
 		})
@@ -268,7 +267,6 @@ const getNext = () =>{
 const getUpcoming = () =>{
 	let mapper = ["","bookingOne","bookingTwo","bookingThree","bookingFour","bookingFive"]
 	getData(`${link}/get/upcoming/tickets`,"POST",{"teller_id":teller,"branch_id":branch_id},(data)=>{
-		console.log("?>>>>>>>",data.length)
 		if(data.length === 4){
 			$("#bookingFive").html("—")
 			$("#bookingFour").html("—")
@@ -358,12 +356,12 @@ const closeTicket = () =>{
 	})
 };
 
-setInterval(()=>{
-		getUpcoming();
-		getNext();
-		getActive();
-		getAll();
-},1000);
+// setInterval(()=>{
+// 		getUpcoming();
+// 		getNext();
+// 		getActive();
+// 		getAll();
+// },1000);
 
 
 $("#settings").on("click",()=>{
@@ -425,12 +423,14 @@ $("#add_service").on("click",(me)=>{
 var icon_data;
 $("#icon_file_icon").change(function() {
 	readURL(this);
+	
 });
 
 $("#upload_icon").on("click",(e)=>{
 	let icon = icon_data
+	console.log(icon)
 	let icon_name = $("#icon_name").val()
-	// console.log("++++++>",icon_name)
+
 	if (icon && icon_name){
 			getData(`${link}/service/icon`,"POST",{"icon" : icon, "name" : icon_name,"branch_id":branch_id},(data)=>{
 				updateIcons()
@@ -444,6 +444,42 @@ $("#upload_icon").on("click",(e)=>{
 	}else{
 		$("#message_icon").html(`<div class="alert alert-danger" role="alert">Error All Fields Data Required.</div>`)
 	}
+})
+
+var video_data;
+function vidUrl(input) {
+	if (input.files && input.files[0]) {
+		var reader = new FileReader();
+		reader.onload = function(e) {
+			video_data = reader.result
+		}
+		reader.readAsDataURL(input.files[0]); // convert to base64 string
+		}
+}
+
+
+
+$("#file").change(function() {
+	vidUrl(this);
+});
+
+// upload_video
+$("#upload_video").on("click",(e)=>{
+	let icon = video_data
+	console.log(icon)
+	// if (file){
+
+	// 	getData(`${link}/video/upload`,"POST",{"file" : icon},(data)=>{
+	// 				console.log("data>>>>>>>",data)
+	// 		if(data.msg){
+	// 			$("#video_message").html(`<div class="alert alert-success" role="alert">Icon Added Successfully</div>`)
+	// 		}else{
+	// 			$("#video_message").html(`<div class="alert alert-danger" role="alert">Error Adding Icon</div>`)
+	// 		}
+	// 	})
+	// }else{
+	// 	$("#video_message").html(`<div class="alert alert-danger" role="alert">Error All Fields Data Required.</div>`)
+	// }
 })
 
 $("#add_teller").on("click",()=>{
@@ -533,7 +569,37 @@ $(".close").on("click",()=>{
 });
 
 
-
+function _(el){
+	return document.getElementById(el);
+}
+function uploadFile(){
+	var file = _("file1").files[0];
+	// alert(file.name+" | "+file.size+" | "+file.type);
+	var formdata = new FormData();
+	formdata.append("file", file);
+	var ajax = new XMLHttpRequest();
+	ajax.upload.addEventListener("progress", progressHandler, false);
+	ajax.addEventListener("load", completeHandler, false);
+	ajax.addEventListener("error", errorHandler, false);
+	ajax.addEventListener("abort", abortHandler, false);
+	ajax.open("POST", "http://localhost:1000/video/upload");
+	ajax.send(formdata);
+}
+function progressHandler(event){
+	var percent = (event.loaded / event.total) * 100;
+	_("progressBar").value = Math.round(percent);
+	_("status").innerHTML = Math.round(percent)+"%";
+}
+function completeHandler(event){
+	_("status").innerHTML = event.target.responseText;
+	_("progressBar").value = 0;
+}
+function errorHandler(event){
+	_("status").innerHTML = "Upload Failed";
+}
+function abortHandler(event){
+	_("status").innerHTML = "Upload Aborted";
+}
 
 
 

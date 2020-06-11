@@ -229,9 +229,6 @@
 									<button class="btn btn btn-outline-danger btn-sm col-lg-12 modalInfo mt-4" id="set_teller_number" >Set Teller</button>
 							</div>
 						</div>
-
-
-
 						<div class="row">
 							<div class="col-lg-6 mt-5">
 									<h5 class="header text-muted">Sync Services</h5>
@@ -240,25 +237,17 @@
 									<div id="loading_gif" style="display:none;"><img src="./images/loading.gif" alt="" height="70px" ></div>
 									<button class="btn btn btn-outline-danger btn-sm col-lg-12 modalInfo mt-4" id="sync_service">Sync Service</button>
 							</div>
-<!-- 
-							<div class="col-lg-6 mt-4">
-								<form action="" enctype="multipart/form-data" name="upload_icon" id="form_upload_icon">
-									<h5 class="header text-muted">Set Teller As</h5>
-									<div id="message_teller"></div>
-									<div class="tellerNumber text-muted">
-										<h1 id="tellerNumber">
-											4
-										</h1>
-									</div>
-									<label for="service mt-2">Teller Number </label>
-									<input type="text" id="teller_number" name ="icon_name" class="form-control form-control-sm">
-									<input class="btn btn btn-outline-danger btn-sm col-lg-12 modalInfo mt-4"   name="submit" id="set_teller_number" value="Set Teller">
+
+							<div class="col-lg-6 mt-5">
+								<form action="" enctype="multipart/form-data" name="upload_icon" id="form_upload_video">
+									<h5 class="header mb-5 text-muted">Upload Video</h5>
+									<div id="video_message"></div>
+									<form class="mt-5" method=post action="http://localhost:1000/video/upload" enctype=multipart/form-data > 
+									<a target="_blank" class="btn btn-sm btn-outline-primary col-lg-12" href="http://localhost:1000/upload">Upload Video</a>
 								</form>
-							</div> -->
+							</div>
+							<!-- uplaod video link  -->
 						</div>
-
-
-
 						<div class="row">
 <!--							<div class="col-lg-12 mt-4">-->
 <!--								<h5 class="header text-muted">Manage Tellers</h5>-->
@@ -274,8 +263,6 @@
 			<!-- body end -->
 	<br><br>
 </div>
-
-
 <script src="./libs/popper/popper.js"></script>
 <script src="./libs/bootstrap/js/bootstrap.min.js"></script>
 <script src="./scripts/main.js"></script>
