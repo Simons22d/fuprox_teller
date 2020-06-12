@@ -132,7 +132,7 @@ $("#verifyKey").on("click",()=>{
 })
 
 
-	// get branch icons
+// get branch icons
 const updateIcons = () =>{
 getData(`${link}/service/icons/get`,"POST",{"branch_id":branch_id} ,(data)=>{
 
