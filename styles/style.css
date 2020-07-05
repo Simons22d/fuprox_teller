@@ -1,6 +1,18 @@
 
+@font-face {
+    font-family: Gellix;
+    src: url("../assets/fonts/gellix/GellixRegular.otf") format("opentype");
+  }
+  
+  @font-face {
+    font-family: Gellix;
+    font-weight: bold;
+    src: url("../assets/fonts/gellix/GellixBold.otf") format("opentype");
+  }
+
+  
 html{
-  font-family: "Avenir"
+  font-family: "Gellix"
 }
 .custom_card{
   border-radius:10px;
@@ -107,4 +119,12 @@ html{
 }
 .btn-special{
     height:30px;
+}
+.gellix{
+    font-family: Gellix;
+    font-weight: bold;
+}
+.bold{
+    font-weight: bold;
+    padding-right:2px;
 }

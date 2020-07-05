@@ -356,12 +356,12 @@ const closeTicket = () =>{
 	})
 };
 
-// setInterval(()=>{
-// 		getUpcoming();
-// 		getNext();
-// 		getActive();
-// 		getAll();
-// },1000);
+setInterval(()=>{
+		getUpcoming();
+		getNext();
+		getActive();
+		getAll();
+},1000);
 
 
 $("#settings").on("click",()=>{
