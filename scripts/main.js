@@ -36,21 +36,7 @@ $("#set_teller_number").on("click",()=>{
 })
 
 $("#sync_service").on("click",(e)=>{
-	$("#loading_gif").show()
-	// here we are sycing services
-	console.log("we are sycing services .....")
-	getData(`${link}/sync/all/offline`,"POST",{"key" : JSON.parse(localStorage.getItem("branch_info")).msg.key_},(data)=>{
-		//  perform some UI manipulations
-		if(data){
-			setTimeout(()=>{
-				$("#loading_gif").hide()
-				$("#message_sync").html(`<div class="alert alert-success" role="alert">Successfully Updated data</div>`)
-			},2000)
-		}else{
-			// we are not geting the response
-			$("#message_sync").html(`<div class="alert alert-danger" role="alert">Error! Could NotUpdated data</div>`)
-		}
-	})
+	sync()
 })
 
 const getData = (url,methods,data,handle) => {
@@ -77,6 +63,23 @@ setTimeout(()=>{
 		}
 	})
 },10)
+
+
+ const sync = () => {
+	 $("#loading_gif").show()
+	 getData(`${link}/sync/all/offline`,"POST",{"key" : JSON.parse(localStorage.getItem("branch_info")).msg.key_},(data)=>{
+		 //  perform some UI manipulations
+		 if(data){
+			 setTimeout(()=>{
+				 $("#loading_gif").hide()
+				 $("#message_sync").html(`<div class="alert alert-success" role="alert">Successfully Updated data</div>`)
+			 },20000)
+		 }else{
+			 // we are not geting the response
+			 $("#message_sync").html(`<div class="alert alert-danger" role="alert">Error! Could NotUpdated data</div>`)
+		 }
+	 })
+ }
 
 
 // getting the local storage key
@@ -362,6 +365,10 @@ const closeTicket = () =>{
 // 		getActive();
 // 		getAll();
 // },1000);
+
+setInterval(()=>{
+	sync()
+},60000)
 
 
 $("#settings").on("click",()=>{
