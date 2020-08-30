@@ -35,9 +35,9 @@ $("#set_teller_number").on("click",()=>{
 	})
 })
 
-$("#sync_service").on("click",(e)=>{
-	sync()
-})
+// $("#sync_service").on("click",(e)=>{
+// 	sync()
+// })
 
 const getData = (url,methods,data,handle) => {
 	fetch(url,{
@@ -359,16 +359,16 @@ const closeTicket = () =>{
 	})
 };
 
-// setInterval(()=>{
-// 		getUpcoming();
-// 		getNext();
-// 		getActive();
-// 		getAll();
-// },1000);
-
 setInterval(()=>{
-	sync()
-},60000)
+		getUpcoming();
+		getNext();
+		getActive();
+		getAll();
+},1000);
+
+// setInterval(()=>{
+// 	sync()
+// },60000)
 
 
 $("#settings").on("click",()=>{

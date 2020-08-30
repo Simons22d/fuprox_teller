@@ -21,6 +21,7 @@ function createWindows() {
     })
     app.allowRendererProcessReuse = true;
     // autoHideMenuBar  : true,
+    // autoHideMenuBar  : true,
 
     // win.webContents.openDevTools()
 
@@ -32,10 +33,10 @@ function createWindows() {
             nodeIntegration: true
         }
     }))
-    win.setMenu(null)
+    // win.setMenu(null)
 
     // win.setFullScreen(true)
-    win.setTitle("Fuprox Teller Two")
+    win.setTitle("Fuprox Teller")
 }
 
 app.on('ready',() =>{
