@@ -13,6 +13,8 @@
   "author": "Denis Wambui",
   "license": "ISC",
   "dependencies": {
+    "electron-squirrel-startup": "^1.0.0",
+    "electron-winstaller": "^4.0.1",
     "jquery": "^3.5.1"
   },
   "devDependencies": {

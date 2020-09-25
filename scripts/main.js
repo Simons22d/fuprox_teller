@@ -85,7 +85,7 @@ setTimeout(()=>{
 // getting the local storage key
 if(localStorage.getItem("key")){
 	//gettingthe key info
-	let key = localStorage.getItem("key")
+	let key = localStorage.getItem("key").trim()
 	if (key.length !== 64){
 		//	 there is an issue with the key
 		$("#key").attr("placeholder","Activation Key Error!")
@@ -217,12 +217,13 @@ const getActive = (call=12) => {
 				sessionStorage.setItem("active_ticket",data['id'])
 			final += `${data.ticket}`;
 			if (call ===120 ){
+				// testing 
+				console.log("testing ... ")
 				let handle = $("#nxtTicket")
 				handle.prop("disabled",true)
 				// play(data.caller)
 				let caller = data.caller
 				getData(`${link}/callout`,"POST",{"phrase" : caller},(data)=>{
-
 					if(data){
 					//	enable button else
 						handle.prop("disabled",false)
@@ -337,7 +338,6 @@ const getTellerInfo = (me) => {
 
 const nextTicket = () => {
 	getData(`${link}/ticket/service`,"POST",{"teller_id" : teller,"branch_id":branch_id},(data)=>{
-		console.log("next teller data info",data)
 		getUpcoming();
 		getNext();
 		getActive(120);
@@ -359,12 +359,12 @@ const closeTicket = () =>{
 	})
 };
 
-setInterval(()=>{
-		getUpcoming();
-		getNext();
-		getActive();
-		getAll();
-},1000);
+// setInterval(()=>{
+// 		getUpcoming();
+// 		getNext();
+// 		getActive();
+// 		getAll();
+// },1000);
 
 // setInterval(()=>{
 // 	sync()
@@ -528,24 +528,24 @@ const getComments = (issue_id) => {
 	let this_comment = $("#the_comment")
 	let next_comment = $("#next_comment")
 
-	getData(`${link}/get/comments`,"POST",{"issue_id": issue_id},(data)=>{
-		let final_data = []
-		if (data.length < 3 ){ next_comment.hide()}
-		console.log(data.length)
-		if(data){
-			data.map((value,index)=>{
-				if(value.active){
-					final_data.push(JSON.stringify(value))
-					this_comment.html(`<p>${value.remarks}</p> <small> Teller from  — ${value.teller_from}</small><br><small> Date Forwarded  : ${new Date(value.date_added).toLocaleString()}</small>`)
-				}
-			})
-		}else{
-			prev_comment.hide()
-			next_comment.hide()
-			this_comment.html("<small>No Comments</small>")
-		}
-		sessionStorage.setItem("comments",final_data)
-	})
+	// getData(`${link}/get/comments`,"POST",{"issue_id": issue_id},(data)=>{
+	// 	let final_data = []
+	// 	if (data.length < 3 ){ next_comment.hide()}
+	// 	console.log(data.length)
+	// 	if(data){
+	// 		data.map((value,index)=>{
+	// 			if(value.active){
+	// 				final_data.push(JSON.stringify(value))
+	// 				this_comment.html(`<p>${value.remarks}</p> <small> Teller from  — ${value.teller_from}</small><br><small> Date Forwarded  : ${new Date(value.date_added).toLocaleString()}</small>`)
+	// 			}
+	// 		})
+	// 	}else{
+	// 		prev_comment.hide()
+	// 		next_comment.hide()
+	// 		this_comment.html("<small>No Comments</small>")
+	// 	}
+	// 	sessionStorage.setItem("comments",final_data)
+	// })
 }
 
 //setting  the teller number
