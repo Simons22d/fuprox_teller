@@ -359,12 +359,12 @@ const closeTicket = () =>{
 	})
 };
 
-// setInterval(()=>{
-// 		getUpcoming();
-// 		getNext();
-// 		getActive();
-// 		getAll();
-// },1000);
+setInterval(()=>{
+		getUpcoming();
+		getNext();
+		getActive();
+		getAll();
+},1000);
 
 // setInterval(()=>{
 // 	sync()
@@ -528,24 +528,24 @@ const getComments = (issue_id) => {
 	let this_comment = $("#the_comment")
 	let next_comment = $("#next_comment")
 
-	// getData(`${link}/get/comments`,"POST",{"issue_id": issue_id},(data)=>{
-	// 	let final_data = []
-	// 	if (data.length < 3 ){ next_comment.hide()}
-	// 	console.log(data.length)
-	// 	if(data){
-	// 		data.map((value,index)=>{
-	// 			if(value.active){
-	// 				final_data.push(JSON.stringify(value))
-	// 				this_comment.html(`<p>${value.remarks}</p> <small> Teller from  — ${value.teller_from}</small><br><small> Date Forwarded  : ${new Date(value.date_added).toLocaleString()}</small>`)
-	// 			}
-	// 		})
-	// 	}else{
-	// 		prev_comment.hide()
-	// 		next_comment.hide()
-	// 		this_comment.html("<small>No Comments</small>")
-	// 	}
-	// 	sessionStorage.setItem("comments",final_data)
-	// })
+	getData(`${link}/get/comments`,"POST",{"issue_id": issue_id},(data)=>{
+		let final_data = []
+		if (data.length < 3 ){ next_comment.hide()}
+		console.log(data.length)
+		if(data){
+			data.map((value,index)=>{
+				if(value.active){
+					final_data.push(JSON.stringify(value))
+					this_comment.html(`<p>${value.remarks}</p> <small> Teller from  — ${value.teller_from}</small><br><small> Date Forwarded  : ${new Date(value.date_added).toLocaleString()}</small>`)
+				}
+			})
+		}else{
+			prev_comment.hide()
+			next_comment.hide()
+			this_comment.html("<small>No Comments</small>")
+		}
+		sessionStorage.setItem("comments",final_data)
+	})
 }
 
 //setting  the teller number
@@ -580,7 +580,7 @@ $("#reset_tickets").on("click",()=>{
 	console.log("Reseting tickets")
 	getData(`${link}/ticket/reset`,"POST",{},(data)=>{
 		if(data){
-				
+
 		}else{
 
 		}
