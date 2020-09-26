@@ -576,6 +576,17 @@ $(".close").on("click",()=>{
 });
 
 
+$("#reset_tickets").on("click",()=>{
+	console.log("Reseting tickets")
+	getData(`${link}/ticket/reset`,"POST",{},(data)=>{
+		if(data){
+				
+		}else{
+
+		}
+	})
+})
+
 function _(el){
 	return document.getElementById(el);
 }
