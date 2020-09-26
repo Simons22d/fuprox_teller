@@ -33,7 +33,7 @@ function createWindows() {
             nodeIntegration: true
         }
     }))
-    win.setMenu(null)
+    // win.setMenu(null)
 
     // win.setFullScreen(true)
     win.setTitle("NoQueue Teller")
