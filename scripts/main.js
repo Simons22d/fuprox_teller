@@ -67,7 +67,7 @@ setTimeout(()=>{
 
  const sync = () => {
 	 $("#loading_gif").show()
-	 getData(`${link}/sync/all/offline`,"POST",{"key" : JSON.parse(localStorage.getItem("branch_info")).msg.key_},(data)=>{
+	 getData(`${link}/sync/init`,"POST",{"key" : JSON.parse(localStorage.getItem("branch_info")).msg.key_},(data)=>{
 		 //  perform some UI manipulations
 		 if(data){
 			 setTimeout(()=>{
