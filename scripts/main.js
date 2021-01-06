@@ -73,7 +73,7 @@ setTimeout(()=>{
 			 setTimeout(()=>{
 				 $("#loading_gif").hide()
 				 $("#message_sync").html(`<div class="alert alert-success" role="alert">Successfully Updated data</div>`)
-			 },20000)
+			 },10000)
 		 }else{
 			 // we are not geting the response
 			 $("#message_sync").html(`<div class="alert alert-danger" role="alert">Error! Could NotUpdated data</div>`)
@@ -81,6 +81,21 @@ setTimeout(()=>{
 	 })
  }
 
+
+ // setInterval(()=>{
+	// getData(`${link}/sync/init`,"POST",{"key" : JSON.parse(localStorage.getItem("branch_info")).msg.key_},(data)=>{
+	// 	//  perform some UI manipulations
+	// 	if(data){
+	// 		setTimeout(()=>{
+	// 			$("#loading_gif").hide()
+	// 			$("#message_sync").html(`<div class="alert alert-success" role="alert">Successfully Updated data</div>`)
+	// 		},3000)
+	// 	}else{
+	// 		// we are not geting the response
+	// 		$("#message_sync").html(`<div class="alert alert-danger" role="alert">Error! Could NotUpdated data</div>`)
+	// 	}
+	// })
+ // },30000)
 
 // getting the local storage key
 if(localStorage.getItem("key")){
@@ -110,7 +125,7 @@ const verifyKey = (key) => {
 	getData(`${link}/branch/by/key`,"POST",{"key" : key},(data)=>{
 		if (data.status){
 			// #store key in localStorage
-			$("#message_key").html(`<div class="alert alert-success" role="alert">Valid Key</div>`)
+			$("#message_key").html(`<div class="alert alert-success" role="alert">Success!  Valid Key</div>`)
 			localStorage.setItem("key",key)
 			localStorage.setItem("branch_info",JSON.stringify(data))
 			$("#verifyKey").prop("disabled",true)
@@ -118,7 +133,7 @@ const verifyKey = (key) => {
 		}else{
 			// key not valid
 			// replace dowm with on invalid key
-			$("#message_key").html(`<div class="alert alert-danger" role="alert">Key Is Not Valid</div>`)
+			$("#message_key").html(`<div class="alert alert-danger" role="alert">Error! Key Is Not Valid</div>`)
 			$("#key").addClass("is-invalid")
 		}
 	})
@@ -352,6 +367,7 @@ const closeTicket = () =>{
 		getUpcoming();
 		getNext();
 		getAll();
+		
 		$("#booking_type").html("—")
 		$("#ticket_type").html("—")
 		$("#fowarded").html("—")
@@ -364,11 +380,11 @@ setInterval(()=>{
 		getNext();
 		getActive();
 		getAll();
-},1000);
+},3000);
 
-// setInterval(()=>{
-// 	sync()
-// },60000)
+setInterval(()=>{
+	sync()
+},30000)
 
 
 $("#settings").on("click",()=>{
@@ -577,8 +593,10 @@ $(".close").on("click",()=>{
 
 
 $("#reset_tickets").on("click",()=>{
-	console.log("Reseting tickets")
-	getData(`${link}/ticket/reset`,"POST",{},(data)=>{
+	// let val = prompt("Are You sure you want to reset ?")
+	// console.log(val)
+	// console.log("Reseting tickets")
+	getData(`http://159.65.144.235:4000/ticket/reset`,"POST",{},(data)=>{
 		if(data){
 
 		}else{
