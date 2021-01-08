@@ -412,10 +412,8 @@ $("#add_service").on("click",(me)=>{
 	let icon_id =$("#icon_id").val()
 	let spl = icon_id.split(" ");
 	let king = icon_id.split(" ").length > 1 ? `${spl[0]}_${spl[1]}` : icon_id ;
-	console.log(">>>>>",king)
 	let icons_id_data = $(`#option_${king}`).attr("attr-id")
-	console.log("+++++++++",`option_${king}`)
-	
+
 	let data_final = {
 		"name" : service_name,
 		"teller": "",
@@ -429,12 +427,11 @@ $("#add_service").on("click",(me)=>{
 			updateServices()
 			let count = 0;
 			for(x in data){count++;}
-			if(count){
+			if(!data.msg){
 				$("#message_service").html(`<div class="alert alert-success" role="alert">Service Added Successfully</div>`)
-
 			}else{
 				// $("#message_service").html(data.msg)
-				$("#message_service").html(`<div class="alert alert-danger" role="alert">Error Adding Service</div>`)
+				$("#message_service").html(`<div class="alert alert-danger" role="alert">${data.msg}</div>`)
 
 			}
 		})
@@ -455,15 +452,16 @@ $("#upload_icon").on("click",(e)=>{
 	let icon_name = $("#icon_name").val()
 
 	if (icon && icon_name){
-			getData(`${link}/service/icon`,"POST",{"icon" : icon, "name" : icon_name,"branch_id":branch_id},(data)=>{
-				updateIcons()
-				updateServices()
-		if(data.msg){
-			$("#message_icon").html(`<div class="alert alert-success" role="alert">Icon Added Successfully</div>`)
-		}else{
-			$("#message_icon").html(`<div class="alert alert-danger" role="alert">Error Adding Icon</div>`)
-		}
-	})
+		getData(`${link}/service/icon`,"POST",{"icon" : icon, "name" : icon_name,"branch_id":branch_id},(data)=>{
+			updateIcons()
+			updateServices()
+			console.log(data)
+			if(data.status === 201){
+				$("#message_icon").html(`<div class="alert alert-success" role="alert">${data.msg}</div>`)
+			}else{
+				$("#message_icon").html(`<div class="alert alert-danger" role="alert">${data.msg}</div>`)
+			}
+		})
 	}else{
 		$("#message_icon").html(`<div class="alert alert-danger" role="alert">Error All Fields Data Required.</div>`)
 	}
