@@ -10,7 +10,7 @@ catch(error) {
 	branch_id = 2 || 1
 }
 
-let addr = localStorage.getItem("server_ip",server_ip)
+let addr = localStorage.getItem("server_ip")
 let link = `http://${addr}:1000`
 
 //setting the key
