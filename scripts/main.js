@@ -25,6 +25,16 @@ setTimeout(()=>{
 },500)
 
 
+$("#set_server_ip").on("click",()=>{
+	let server_ip = $("#server_ip").val()
+	if(server_ip){
+		localStorage.setItem("server_ip",server_ip)
+		$("#server_ip").attr("placeholder",`Currently Set As '${addr}'`)
+		$("#message_ip").html(`<div class="alert alert-success" role="alert">Success! Make sure to restart app.<br> for changes to take effect</div>`)
+	}
+})
+
+
 let online_status = $(".status");
 let text_status = $(".status_text");
 
@@ -51,14 +61,7 @@ $("#set_teller_number").on("click",()=>{
 	})
 })
 
-$("#set_server_ip").on("click",()=>{
-	let server_ip = $("#server_ip").val()
-	if(server_ip){
-		localStorage.setItem("server_ip",server_ip)
-		$("#server_ip").attr("placeholder",`Currently Set As '${addr}'`)
-		$("#message_ip").html(`<div class="alert alert-success" role="alert">Success! Make sure to restart app.<br> for changes to take effect</div>`)
-	}
-})
+
 
 $("#sync_service").on("click",(e)=>{
 	sync()
