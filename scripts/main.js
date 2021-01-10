@@ -1,5 +1,6 @@
 let country_id = 1;
-let link = "http://127.0.0.1:1000"
+
+
 let teller = localStorage.getItem("tellerNumber")
 let branch_id;
 try {
@@ -8,6 +9,21 @@ try {
 catch(error) {
 	branch_id = 2 || 1
 }
+
+let addr = localStorage.getItem("server_ip",server_ip)
+let link = `http://${addr}:1000`
+
+//setting the key
+setTimeout(()=>{
+	console.log(addr)
+	if(addr){
+		$("#server_ip").attr("placeholder",`Currently Set As '${addr}'`)
+	}else{
+		$("#server_ip").attr("placeholder",`Please Set Address Before using app.`)
+
+	}
+},500)
+
 
 let online_status = $(".status");
 let text_status = $(".status_text");
@@ -35,9 +51,18 @@ $("#set_teller_number").on("click",()=>{
 	})
 })
 
-// $("#sync_service").on("click",(e)=>{
-// 	sync()
-// })
+$("#set_server_ip").on("click",()=>{
+	let server_ip = $("#server_ip").val()
+	if(server_ip){
+		localStorage.setItem("server_ip",server_ip)
+		$("#server_ip").attr("placeholder",`Currently Set As '${addr}'`)
+		$("#message_ip").html(`<div class="alert alert-success" role="alert">Success! Make sure to restart app.<br> for changes to take effect</div>`)
+	}
+})
+
+$("#sync_service").on("click",(e)=>{
+	sync()
+})
 
 const getData = (url,methods,data,handle) => {
 	fetch(url,{
@@ -152,34 +177,34 @@ $("#verifyKey").on("click",()=>{
 
 // get branch icons
 const updateIcons = () =>{
-getData(`${link}/service/icons/get`,"POST",{"branch_id":branch_id} ,(data)=>{
+	getData(`${link}/service/icons/get`,"POST",{"branch_id":branch_id} ,(data)=>{
 
-	if(data){
-		let handle = $("#icon_id")
-		let final  = ""
-		data.map((item,index)=>{
-			let spl = item.name.split(" ");
-			let king = item.name.split(" ").length > 1 ? `${spl[0]}_${spl[1]}` : item.name ;
-			final += `<option id="option_${king}" attr-id="${item.id}">${item.name}</option>`
-		})
-		handle.html(final)
-	}
-})
+		if(data){
+			let handle = $("#icon_id")
+			let final  = ""
+			data.map((item,index)=>{
+				let spl = item.name.split(" ");
+				let king = item.name.split(" ").length > 1 ? `${spl[0]}_${spl[1]}` : item.name ;
+				final += `<option id="option_${king}" attr-id="${item.id}">${item.name}</option>`
+			})
+			handle.html(final)
+		}
+	})
 }
 
 
 updateIcons()
 
 const updateServices =() =>{
-getData(`${link}/services/branch/get`,"POST",{"branch_id":branch_id},(data)=>{
-let handle = $("#service_to_offer")
-let final  = ""
-	data.map((item,index)=>{
-		final += `<option id="${item.id}">${item.name}-${item.code}</option>`
-	})
+	getData(`${link}/services/branch/get`,"POST",{"branch_id":branch_id},(data)=>{
+	let handle = $("#service_to_offer")
+	let final  = ""
+		data.map((item,index)=>{
+			final += `<option id="${item.id}">${item.name}-${item.code}</option>`
+		})
+		handle.html(final)
 	handle.html(final)
-handle.html(final)
-})
+	})
 }
 
 updateServices()
@@ -194,19 +219,6 @@ if (input.files && input.files[0]) {
 	reader.readAsDataURL(input.files[0]); // convert to base64 string
 	}
 }
-
-const play = (string) =>{
-        $.speech({
-            key: '5d575f97089243ac8be10fb4ce96bf74',
-            src: string,
-            hl: 'en-gb',
-            r: 0,
-            c: 'mp3',
-            f: '44khz_16bit_stereo',
-            ssml: false
-		});
-};
-
 
 const getActive = (call=12) => {
 		getData(`${link}/get/active/ticket`,"POST",{"teller_id":teller,"branch_id" : branch_id},(data)=>{
@@ -382,6 +394,7 @@ setInterval(()=>{
 		getAll();
 },3000);
 
+
 setInterval(()=>{
 	sync()
 },30000)
@@ -391,19 +404,20 @@ $("#settings").on("click",()=>{
 	$("#myModal").show()
 });
 
+
 $(".close").on("click",()=>{
 	$("#myModal").hide()
 });
 
 
-$("#moreInfo").on("click",(me)=>{
-	let key  = $("#key").val()
-	if (key.length > 0){
-		getData(`${link}/branch/by/link`,'POST',{"key" : key},(data)=>{
-		})
-	}else{
-	}
-})
+// $("#moreInfo").on("click",(me)=>{
+// 	let key  = $("#key").val()
+// 	if (key.length > 0){
+// 		getData(`${link}/branch/by/link`,'POST',{"key" : key},(data)=>{
+// 		})
+// 	}else{
+// 	}
+// })
 
 
 $("#add_service").on("click",(me)=>{
@@ -443,7 +457,6 @@ $("#add_service").on("click",(me)=>{
 var icon_data;
 $("#icon_file_icon").change(function() {
 	readURL(this);
-	
 });
 
 $("#upload_icon").on("click",(e)=>{
@@ -487,21 +500,8 @@ $("#file").change(function() {
 // upload_video
 $("#upload_video").on("click",(e)=>{
 	let icon = video_data
-	console.log(icon)
-	// if (file){
-
-	// 	getData(`${link}/video/upload`,"POST",{"file" : icon},(data)=>{
-	// 				console.log("data>>>>>>>",data)
-	// 		if(data.msg){
-	// 			$("#video_message").html(`<div class="alert alert-success" role="alert">Icon Added Successfully</div>`)
-	// 		}else{
-	// 			$("#video_message").html(`<div class="alert alert-danger" role="alert">Error Adding Icon</div>`)
-	// 		}
-	// 	})
-	// }else{
-	// 	$("#video_message").html(`<div class="alert alert-danger" role="alert">Error All Fields Data Required.</div>`)
-	// }
 })
+
 
 $("#add_teller").on("click",()=>{
 	let teller_number = $("#teller_number_teller").val()
@@ -592,8 +592,6 @@ $(".close").on("click",()=>{
 
 $("#reset_tickets").on("click",()=>{
 	// let val = prompt("Are You sure you want to reset ?")
-	// console.log(val)
-	// console.log("Reseting tickets")
 	getData(`http://159.65.144.235:4000/ticket/reset`,"POST",{},(data)=>{
 		if(data){
 
@@ -616,7 +614,7 @@ function uploadFile(){
 	ajax.addEventListener("load", completeHandler, false);
 	ajax.addEventListener("error", errorHandler, false);
 	ajax.addEventListener("abort", abortHandler, false);
-	ajax.open("POST", "http://localhost:1000/video/upload");
+	ajax.open("POST", `http://${addr}:1000/video/upload`);
 	ajax.send(formdata);
 }
 function progressHandler(event){
