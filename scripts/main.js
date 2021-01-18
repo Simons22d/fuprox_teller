@@ -35,6 +35,9 @@ $("#set_server_ip").on("click",()=>{
 })
 
 
+const refresh = () =>{
+	window.location.reload()
+}
 let online_status = $(".status");
 let text_status = $(".status_text");
 
