@@ -31,13 +31,19 @@ $("#set_server_ip").on("click",()=>{
 		localStorage.setItem("server_ip",server_ip)
 		$("#server_ip").attr("placeholder",`Currently Set As '${addr}'`)
 		$("#message_ip").html(`<div class="alert alert-success" role="alert">Success! Make sure to restart app.<br> for changes to take effect</div>`)
+		reload()
 	}
 })
 
 
-const refresh = () =>{
-	window.location.reload()
+const reload = () => {
+	setTimeout(()=>{
+		document.location.reload()
+	},1000)
 }
+
+
+
 let online_status = $(".status");
 let text_status = $(".status_text");
 
@@ -49,11 +55,11 @@ $("#set_teller_number").on("click",()=>{
 		let count = 0;
 		for(x in data){count++;}
 		if(count){
-			console.log(data)
 			if(teller_number){
 				if(Number(teller_number)){
 					localStorage.setItem("tellerNumber",Number(teller_number))
 					$("#message_teller").html(`<div class="alert alert-success" role="alert">Success Changing Teller. Make sure to restart app.<br> for changes to take effect</div>`)
+					reload()
 				}else{
 					$("#message_teller").html(`<div class="alert alert-danger" role="alert">Error must be a number.</div>`)
 				}
@@ -175,6 +181,8 @@ $("#verifyKey").on("click",()=>{
 	if(key) {
 	//	message_key
 		verifyKey(key)
+		reload()
+
 	}else {
 		$("#message_key").html(`<div class="alert alert-danger" role="alert">Key cannot Be empty</div>`)
 	}
