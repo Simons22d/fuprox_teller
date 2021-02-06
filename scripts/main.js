@@ -441,13 +441,14 @@ $("#add_service").on("click",(me)=>{
 	let spl = icon_id.split(" ");
 	let king = icon_id.split(" ").length > 1 ? `${spl[0]}_${spl[1]}` : icon_id ;
 	let icons_id_data = $(`#option_${king}`).attr("attr-id")
-
+	let visible = $("#service_visibility").val()
 	let data_final = {
 		"name" : service_name,
 		"teller": "",
 		"branch_id": branch_id,
 		"code" : code,
-		"icon_id" : icons_id_data
+		"icon_id" : icons_id_data,
+		"visible" : visible
 	}
 	if (service_name && code && icon_id){
 		getData(`${link}/service/make`,'POST',data_final,(data)=>{
