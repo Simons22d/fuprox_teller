@@ -448,7 +448,7 @@ $("#add_service").on("click",(me)=>{
 		"branch_id": branch_id,
 		"code" : code,
 		"icon_id" : icons_id_data,
-		"visible" : Number(visible) === 0 ? false : True
+		"visible" : Number(visible) === 0 ? false : true
 	}
 	if (service_name && code && icon_id){
 		getData(`${link}/service/make`,'POST',data_final,(data)=>{
