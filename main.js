@@ -1,6 +1,9 @@
 const { app,BrowserWindow,ipcMain,Menu } = require('electron')
 const path=require('path')
 const url=require('url')
+// CommonJS
+const io = require("socket.io-client");
+
 
 let teller = 1;
 let branch_id = 2;

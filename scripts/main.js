@@ -1,8 +1,7 @@
 let country_id = 1;
-
-
 let teller = localStorage.getItem("tellerNumber")
 let branch_id;
+
 try {
   branch_id = JSON.parse(localStorage.getItem("branch_info")).msg.id
 }
@@ -20,9 +19,33 @@ setTimeout(()=>{
 		$("#server_ip").attr("placeholder",`Currently Set As '${addr}'`)
 	}else{
 		$("#server_ip").attr("placeholder",`Please Set Address Before using app.`)
-
 	}
 },500)
+
+
+// socket implementation 
+
+
+const sio = io("http://localhost:5500/");
+
+
+sio.on('connect', () => {
+  console.log('connected');
+});
+
+sio.on('disconnect', () => {
+  console.log('disconnected');
+});
+
+sio.on('hello_data', () => {
+  console.log('hello_data');
+  	getUpcoming();
+		getNext();
+		getActive();
+		getAll();
+});
+
+// end socket implementation
 
 
 $("#set_server_ip").on("click",()=>{
@@ -365,15 +388,16 @@ const getTellerInfo = (me) => {
 	let comment = $("#this_comment").val()  ? $("#this_comment").val().trim() : "—"
 	// here we are going to foward the ticket
 	getData(`${link}/ticket/forward`,"POST",{"branch_id":branch_id,"teller_from":teller,"teller_to":this_id,"comment" :comment},(data)=>{
-		getUpcoming();
-		getNext();
-		getAll();
+		// getUpcoming();
+		// getNext();
+		// getAll();
 		$("#booking_type").html("—");
 		$("#ticket_type").html("—");
 		$("#fowarded").html("—");
 		$("#activeTicket").html("—");
 		$("#this_comment").val("")
 		$('#this_comment').hide()
+		sio.emit('hello',"")
 	})
 };
 
@@ -401,17 +425,17 @@ const closeTicket = () =>{
 	})
 };
 
-setInterval(()=>{
-		getUpcoming();
-		getNext();
-		getActive();
-		getAll();
-},3000);
+// setInterval(()=>{
+// 		getUpcoming();
+// 		getNext();
+// 		getActive();
+// 		getAll();
+// },3000);
 
 
-setInterval(()=>{
-	sync()
-},30000)
+// setInterval(()=>{
+// 	sync()
+// },30000)
 
 
 $("#settings").on("click",()=>{
@@ -458,6 +482,8 @@ $("#add_service").on("click",(me)=>{
 			for(x in data){count++;}
 			if(!data.msg){
 				$("#message_service").html(`<div class="alert alert-success" role="alert">Service Added Successfully</div>`)
+				sio.emit("service_mod","")
+				console.log(sio)
 			}else{
 				// $("#message_service").html(data.msg)
 				$("#message_service").html(`<div class="alert alert-danger" role="alert">${data.msg}</div>`)
@@ -531,13 +557,13 @@ $("#add_teller").on("click",()=>{
 				"service_name" : final_serviceName
 			}
 			getData(`${link}/teller/add`,"POST",final, (data)=>{
-				console.log(">>>><<>>",data)
 				let count = 0;
 				for(x in data){count++;}
 				if(count){
 				//	added successfully
 				// 	add_teller_msg
 					$("#add_teller_msg").html(`<div class="alert alert-success" role="alert">Success Adding Teller</div>`)
+					sio.emit("service_mod","")
 				}else{
 				//	was not added successfully
 					$("#add_teller_msg").html(`<div class="alert alert-danger" role="alert">Error Adding Teller</div>`)
