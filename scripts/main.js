@@ -1,5 +1,6 @@
 let country_id = 1;
 let teller = localStorage.getItem("key") ? localStorage.getItem("tellerNumber") : 0;
+console.log()
 let branch_id;
 
 try {
@@ -19,7 +20,7 @@ let link = `http://${addr}:1000`
 // socket implementation 
 
 
-const sio = io("http://localhost:5500/");
+const sio = io(`http://${addr}:5500/`);
 
 
 sio.on('connect', () => {
@@ -131,21 +132,21 @@ getData(`${link}/branch/by/key`,"POST",{"key" : key},(data)=>{
 
 
 
- const sync = () => {
-	 $("#loading_gif").show()
-	 getData(`${link}/sync/init`,"POST",{"key" : JSON.parse(localStorage.getItem("branch_info")).msg.key_},(data)=>{
-		 //  perform some UI manipulations
-		 if(data){
-			 setTimeout(()=>{
-				 $("#loading_gif").hide()
-				 $("#message_sync").html(`<div class="alert alert-success" role="alert">Successfully Updated data</div>`)
-			 },10000)
-		 }else{
-			 // we are not geting the response
-			 $("#message_sync").html(`<div class="alert alert-danger" role="alert">Error! Could Not Updated data</div>`)
-		 }
-	 })
- }
+//  const sync = () => {
+// 	 $("#loading_gif").show()
+// 	 getData(`${link}/sync/init`,"POST",{"key" : JSON.parse(localStorage.getItem("branch_info")).msg.key_},(data)=>{
+// 		 //  perform some UI manipulations
+// 		 if(data){
+// 			 setTimeout(()=>{
+// 				 $("#loading_gif").hide()
+// 				 $("#message_sync").html(`<div class="alert alert-success" role="alert">Successfully Updated data</div>`)
+// 			 },10000)
+// 		 }else{
+// 			 // we are not geting the response
+// 			 $("#message_sync").html(`<div class="alert alert-danger" role="alert">Error! Could Not Updated data</div>`)
+// 		 }
+// 	 })
+//  }
 
 
  // setInterval(()=>{
@@ -198,7 +199,6 @@ const verifyKey_ = ()=>{
 		$("#message_key").html(`<div class="alert alert-danger" role="alert">Key cannot Be empty</div>`)
 	}
 }
-
 
 // get branch icons
 const updateIcons = () =>{
@@ -274,7 +274,6 @@ const getActive = (call=12) => {
 				handle.prop("disabled",true)
 				// play(data.caller)
 				let caller = data.caller
-				console.log(callercode)
 				getData(`${link}/callout`,"POST",{"phrase" : caller},(data)=>{
 					if(data){
 					//	enable button else
@@ -344,9 +343,12 @@ const getNext = () =>{
 		
 	getData(`${link}/get/next/ticket`,"POST",{"teller_id":teller,"branch_id" : branch_id},(data)=>{
 		console.log("teller",teller)
+		console.log(data)
 		let final ="";
+		
 		let count = 0;
 		for(x in data){count++;}
+
 		if(count){
 			final += `${data.ticket}`
 		}else{
@@ -521,7 +523,7 @@ const settings_data = () => {
 								<div id="message_teller"></div>
 								<div class="tellerNumber text-muted">
 									<h1 id="tellerNumber">
-										4
+										—
 									</h1>
 								</div>
 								<label for="icon_name">Teller Number </label>
@@ -539,6 +541,19 @@ const settings_data = () => {
 								<input type="text" id="server_ip" name ="icon_name" class="form-control form-control-sm" placeholder="Please Set Address Before using app.'">
 								<button class="btn btn btn-info btn-sm  modalInfo mt-4" id="set_server_ip" onclick="set_server_ip(this)">Set The Server Address</button>
 							</div>
+							<div class="col-lg-6 mt-4">
+								<form action="" enctype="multipart/form-data" name="upload_icon" id="form_upload_icon">
+									<h5 class="header text-muted">Add Icon</h5>
+									<div id="message_icon"></div>
+									<label for="icon_name">Icon Name</label>
+									<input type="text" id="icon_name" name ="icon_name" class="form-control form-control-sm">
+
+									<label for="icon_file_icon" class="mt-2">Icon File</label>
+									<input type="file" id="icon_file_icon" name ="icon" class="form-control form-control-sm " accept="image/* ">
+									<input class="btn btn btn-outline-primary btn-sm col-lg-12 modalInfo mt-4"   name="submit" id="upload_icon" onclick="upload_icon_()" value="upload Icon">
+								</form>
+							</div>
+
 						</div>
 					</div>
 				</div>`
@@ -782,7 +797,7 @@ $("#icon_file_icon").change(function() {
 
 
 
-},500)
+},1)
 });
 
 
@@ -799,7 +814,7 @@ $("#forward").on("click",()=>{
 	setTimeout(()=>{
 		getAllOne()
 		getAllTwo()
-	},500)
+	},20)
 })
 
 
@@ -853,8 +868,6 @@ const add_service = (me)=>{
 	}else{
 	}
 }
-
-
 
 
 var icon_data;
