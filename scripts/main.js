@@ -361,9 +361,11 @@ const getNext = () =>{
 
 
 const getUpcoming = () =>{
-	
+	"ss"
 	let mapper = ["","bookingOne","bookingTwo","bookingThree","bookingFour","bookingFive"]
 	getData(`${link}/get/upcoming/tickets`,"POST",{"teller_id":teller,"branch_id":branch_id},(data)=>{
+		console.log("Ucpcoing", data)
+		console.log("ADDRESS", addr)
 		if(data.length === 4){
 			$("#bookingFive").html("—")
 			$("#bookingFour").html("—")
