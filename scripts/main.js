@@ -24,36 +24,33 @@ const verifyKey = (me) => {
 			localStorage.setItem("branch_info",JSON.stringify(data))
 			console.log("Data available")
 			localStorage.setItem("key",data["key_"])
+			
+			$("#branch").html(data.name)
+			$("#date").html(new Date())
+			$("#services").show()
+			
 		}else{
 			// app not activated
 			console.log("data not available")
+			$("#branch").html(`
+			<img src="./images/key.png" alt="" height="40px" class="mt-3">
+			<div class="mt-2">Error! Application not activated</div>
+			<div class="text-muted">Please make sure you active the application from the backend provided</div>
+			`)
+			$("#services").hide()
+			localStorage.setItem("tellerNumber","")
 		}
 	})
 }
 
 verifyKey()
 
+branch_id = JSON.parse(localStorage.getItem("branch_info")).id
+
+
 let country_id = 1;
 let teller = localStorage.getItem("key") ? localStorage.getItem("tellerNumber") : 0;
 console.log()
-let branch_id;
-// import Swal from 'sweetalert2'
-
-
-try {
-  branch_id = JSON.parse(localStorage.getItem("branch_info")).msg.id
-}
-catch(error) {
-	branch_id = 2 || 1
-}
-
-
-
-//setting the key
-
-
-
-// socket implementation 
 
 
 const sio = io(`http://${addr}:5500/`);
@@ -75,7 +72,6 @@ sio.on('hello_data', () => {
 		getActive();
 		// getAll();
 		required_services()
-
 });
 
 // end socket implementation
@@ -156,66 +152,28 @@ const set_teller_number =()=>{
 
 
 let key = localStorage.getItem("key")
-getData(`${link}/branch/by/key`,"POST",{"key" : key},(data)=>{
-	console.log(data)
-	console.log("CCCCC>")
-	if(data.status){
-		$("#branch").html(data.msg.name)
-		$("#date").html(new Date())
-		$("#services").show()
-	}else{
-		$("#branch").html(`
-		<img src="./images/key.png" alt="" height="40px" class="mt-3">
-		<div class="mt-2">Error! Application not activated</div>
-		<div class="text-muted">Please make sure you active the application from the backend provided</div>
-		`)
-		$("#services").hide()
-		localStorage.setItem("tellerNumber","")
-	}
-})
 
- const sync = () => {
-	 $("#loading_gif").show()
-	 getData(`${link}/sync/init`,"POST",{"key" : JSON.parse(localStorage.getItem("branch_info")).msg.key_},(data)=>{
-		 //  perform some UI manipulations
-		 if(data){
-			 setTimeout(()=>{
-				 $("#loading_gif").hide()
-				 $("#message_sync").html(`<div class="alert alert-success" role="alert">Successfully Updated data</div>`)
-			 },10000)
-		 }else{
-			 // we are not geting the response
-			 $("#message_sync").html(`<div class="alert alert-danger" role="alert">Error! Could Not Updated data</div>`)
-		 }
-	 })
- }
-
-
-//  setInterval(()=>{
-// 	getData(`${link}/sync/init`,"POST",{"key" : JSON.parse(localStorage.getItem("branch_info")).msg.key_},(data)=>{
-// 		//  perform some UI manipulations
-// 		if(data){
-// 			setTimeout(()=>{
-// 				$("#loading_gif").hide()
-// 				$("#message_sync").html(`<div class="alert alert-success" role="alert">Successfully Updated data</div>`)
-// 			},3000)
-// 		}else{
-// 			// we are not geting the response
-// 			$("#message_sync").html(`<div class="alert alert-danger" role="alert">Error! Could NotUpdated data</div>`)
-// 		}
-// 	})
-//  },30000)
-
-// getting the local storage key
-
+// getData(`${link}/branch/by/key`,"POST",{"key" : key},(data)=>{
+// 	console.log(data)
+// 	console.log("CCCCC>")
+// 	if(data.status){
+// 		$("#branch").html(data.name)
+// 		$("#date").html(new Date())
+// 		$("#services").show()
+// 	}else{
+// 		$("#branch").html(`
+// 		<img src="./images/key.png" alt="" height="40px" class="mt-3">
+// 		<div class="mt-2">Error! Application not activated</div>
+// 		<div class="text-muted">Please make sure you active the application from the backend provided</div>
+// 		`)
+// 		$("#services").hide()
+// 		localStorage.setItem("tellerNumber","")
+// 	}
+// })
 
 const enableInput = (handle) =>{
 	$(`#${handle}`).prop("disabled",false)
 }
-
-
-
-
 
 
 const verifyKey_ = ()=>{
@@ -498,6 +456,7 @@ const getTellerInfoTwo = (me) => {
 
 const nextTicket = () => {
 	getData(`${link}/ticket/service`,"POST",{"teller_id" : teller,"branch_id":branch_id},(data)=>{
+		console.log("DDDDDDDDDDDDDDDDDDDDDD",teller,branch_id)
 		getUpcoming();
 		getNext();
 		getActive(120);
