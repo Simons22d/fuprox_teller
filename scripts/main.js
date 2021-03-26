@@ -294,7 +294,7 @@ const getActive = (call=12) => {
 				handle.prop("disabled",true)
 				// play(data.caller)
 				let caller = data.caller
-				let local_link = `http:/localhost:9900`
+				let local_link = `http:/192.168.100.127:9900`
 				getData(`${local_link}/callout`,"POST",{"phrase" : caller},(data)=>{
 					if(data){
 					//	enable button else
