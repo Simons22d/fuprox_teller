@@ -2,6 +2,8 @@ let country_id = 1;
 let teller = localStorage.getItem("key") ? localStorage.getItem("tellerNumber") : 0;
 console.log()
 let branch_id;
+// import Swal from 'sweetalert2'
+
 
 try {
   branch_id = JSON.parse(localStorage.getItem("branch_info")).msg.id
@@ -60,6 +62,28 @@ const reload = () => {
 	},10)
 }
 
+const verify_ticket = () =>{
+	let code = $(`#verify_ticket`).val()
+	if ($(`#verify_ticket`).val().length <= 5){
+		$("#ticket_status").html(`<div class="alert alert-danger" ">Code Too Short</div>`)
+	}else{
+		getData(`${link}/verify/ticket`,"POST",{"code" : code},(data)=>{
+				console.log(data)
+				if(data.status){
+					console.log("1")
+					$("#ticket_status").html(`<div class="alert alert-success" ">Ticket Valid</div>`)
+
+				}else{
+					console.log("2")
+
+					$("#ticket_status").html(`<div class="alert alert-danger" ">Ticket Invalid</div>`)
+				}
+			
+		})
+	}
+	$("#ticket_status").html(final)
+	
+}
 
 
 let online_status = $(".status");
@@ -145,20 +169,20 @@ getData(`${link}/branch/by/key`,"POST",{"key" : key},(data)=>{
  }
 
 
- setInterval(()=>{
-	getData(`${link}/sync/init`,"POST",{"key" : JSON.parse(localStorage.getItem("branch_info")).msg.key_},(data)=>{
-		//  perform some UI manipulations
-		if(data){
-			setTimeout(()=>{
-				$("#loading_gif").hide()
-				$("#message_sync").html(`<div class="alert alert-success" role="alert">Successfully Updated data</div>`)
-			},3000)
-		}else{
-			// we are not geting the response
-			$("#message_sync").html(`<div class="alert alert-danger" role="alert">Error! Could NotUpdated data</div>`)
-		}
-	})
- },30000)
+//  setInterval(()=>{
+// 	getData(`${link}/sync/init`,"POST",{"key" : JSON.parse(localStorage.getItem("branch_info")).msg.key_},(data)=>{
+// 		//  perform some UI manipulations
+// 		if(data){
+// 			setTimeout(()=>{
+// 				$("#loading_gif").hide()
+// 				$("#message_sync").html(`<div class="alert alert-success" role="alert">Successfully Updated data</div>`)
+// 			},3000)
+// 		}else{
+// 			// we are not geting the response
+// 			$("#message_sync").html(`<div class="alert alert-danger" role="alert">Error! Could NotUpdated data</div>`)
+// 		}
+// 	})
+//  },30000)
 
 // getting the local storage key
 
@@ -466,7 +490,6 @@ const getTellerInfoTwo = (me) => {
 const nextTicket = () => {
 	getData(`${link}/ticket/service`,"POST",{"teller_id" : teller,"branch_id":branch_id},(data)=>{
 		getUpcoming();
-		console.log(data)
 		getNext();
 		getActive(120);
 		required_services();
@@ -502,9 +525,9 @@ const closeTicket = () =>{
 // },3000);
 
 
-setInterval(()=>{
-	sync()
-},60000)
+// setInterval(()=>{
+// 	sync()
+// },60000)
 
 const settings_data = () => {
 	$(".modal-content").html(
@@ -906,7 +929,7 @@ $("#upload_video").on("click",(e)=>{
 const finalize_forward = () =>{
 	let frwd = sessionStorage.getItem("forwarded_to")
 	let mandatory = sessionStorage.getItem("mandatory")
-	let comment = "-"
+	let comment = $("#this_comment").val()
 
 	if(mandatory !== "null" && frwd === "null"){
 		console.log("mandtory but forwarded")
@@ -1102,4 +1125,9 @@ function abortHandler(event){
 }
 
 
-
+// Swal.fire({
+// 	icon: 'error',
+// 	title: 'Oops...',
+// 	text: 'Something went wrong!',
+// 	footer: '<a href>Why do I have this issue?</a>'
+//   })

@@ -54,14 +54,21 @@
 	<div class="row mt-5 col-lg-12">
 
 		<div class="col-lg-4"><img src="./images/logo.png" alt="Logo"  height='20px'></div>
-		<div class="col-lg-1 offset-5">
+		<div class="col-lg-1 offset-lg-1">
 		</div>
-		<div class="col-lg-1">
-			<div class="btn btn-sm btn-light" onclick="reload()" style="display:none;">Refresh</div>
+		<div class="col-lg-2" id="ticket_status" style="font-size:12px;">
+			<!-- <div class="alert alert-success alert-sm" role="alert">Ticket Valid</div> -->
+
+		</div>
+		<div class="col-lg-2">
+			<input type="text" class="form-control form-control-sm" name="" id="verify_ticket">
+		</div>
+		<div class="col-lg-2" >
+			<div class="btn btn-sm btn-outline-dark" onclick="verify_ticket()">verify Ticket</div>
+			<img src="./images/manageSolutions.png" id="settings"  class="ml-3" height="15px">
 
 		</div>
 		<div class="col-lg-1 float-right">
-			<img src="./images/manageSolutions.png" id="settings" height="15px">
 		</div>
 
 	</div>
@@ -102,7 +109,22 @@
 				<h5 class="text-muted arrow bold"><</h5>
 				<h5 class="text-muted bold" id="bookingFive">—</h5>
 			</div>
+			
+			<!-- comments -->
 
+			<div class="row" id="comments mt-5">
+				<div class="col-lg-6 row mt-5">
+					<h5 class="text-muted mt-5" id="comment_title">Previous Comment</h5>
+					<p class="col-lg-10 row"><small id="the_comment">—</small></p>
+					<div class="row col-lg-10">
+						<button class="col-lg-3 btn-sm btn btn-outline-dark btn-special"style="display:none" id="next_comment">Next</button>
+					</div>
+				</div>
+				<div class="col-lg-6 row mt-4 mt-5">
+					<textarea class='form-control mt-5' id="this_comment" placeholder="Please Enters comment here " style="font-size:12px; display:none;" name="" id="" cols="40" rows="2"></textarea>
+				</div>
+			</div>
+			<!-- end comments -->
 			
 		</div>
 
@@ -138,9 +160,7 @@
 					<div class="col-lg-6">
 		
 					<button class="btn btn-warning col-lg-12" id="forward">Forward Ticket</button>
-
 					</div>
-
 				<div class="col-lg-6">
 					<button class="btn btn-outline-primary col-lg-12" onclick="closeTicket()">Close ticket</button>
 				</div>	
@@ -160,10 +180,13 @@
 </div>
 
 
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+<script src="//cdn.jsdelivr.net/npm/promise-polyfill@8/dist/polyfill.js"></script>
 
 <script src="./libs/popper/popper.js"></script>
 <script src="./libs/bootstrap/js/bootstrap.min.js"></script>
 <script src="./scripts/main.js"></script>
+
 </body>
 </html> 
 
