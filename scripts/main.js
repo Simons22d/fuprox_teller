@@ -1,3 +1,38 @@
+let addr = localStorage.getItem("server_ip")
+let link = `http://${addr}:1000`
+
+
+const getData = (url,methods,data,handle) => {
+	fetch(url,{
+	  method: methods,
+	  headers: {
+	    'Accept': 'application/json',
+	    'Content-Type': 'application/json'
+	  },
+	  body: JSON.stringify(data)
+	})
+	.then(res=>res.json())
+	.then(res => handle(res));
+};
+
+const verifyKey = (me) => {
+	let key = $("#key").val()
+	console.log(key)
+	getData(`${link}/app/activate`,"POST",{"key" : key},(data)=>{
+		console.log(data)
+		if(data){
+			localStorage.setItem("branch_info",data)
+			console.log("Data available")
+			localStorage.setItem("key",data["key_"])
+		}else{
+			// app not activated
+			console.log("data not available")
+		}
+	})
+}
+
+verifyKey()
+
 let country_id = 1;
 let teller = localStorage.getItem("key") ? localStorage.getItem("tellerNumber") : 0;
 console.log()
@@ -12,8 +47,7 @@ catch(error) {
 	branch_id = 2 || 1
 }
 
-let addr = localStorage.getItem("server_ip")
-let link = `http://${addr}:1000`
+
 
 //setting the key
 
@@ -118,18 +152,6 @@ const set_teller_number =()=>{
 // 	sync()
 // }
 
-const getData = (url,methods,data,handle) => {
-	fetch(url,{
-	  method: methods,
-	  headers: {
-	    'Accept': 'application/json',
-	    'Content-Type': 'application/json'
-	  },
-	  body: JSON.stringify(data)
-	})
-	.then(res=>res.json())
-	.then(res => handle(res));
-};
 
 
 
@@ -192,22 +214,9 @@ const enableInput = (handle) =>{
 }
 
 
-const verifyKey = (me) => {
-	let key = $("#key").val()
-	console.log(key)
-	getData(`${link}/app/activate`,"POST",{"key" : key},(data)=>{
-		console.log(data)
-		if(data){
-			console.log("Data available")
-			localStorage.setItem("key",data["key_"])
-		}else{
-			// app not activated
-			console.log("data not available")
-		}
-	})
-}
 
-verifyKey()
+
+
 
 const verifyKey_ = ()=>{
 	let key = $("#key").val()
