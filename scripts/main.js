@@ -21,7 +21,7 @@ const verifyKey = (me) => {
 	getData(`${link}/app/activate`,"POST",{"key" : key},(data)=>{
 		console.log(data)
 		if(data){
-			localStorage.setItem("branch_info",data)
+			localStorage.setItem("branch_info",JSON.stringify(data))
 			console.log("Data available")
 			localStorage.setItem("key",data["key_"])
 		}else{
