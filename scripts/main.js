@@ -45,8 +45,9 @@ const verifyKey = (me) => {
 
 verifyKey()
 
-branch_id = JSON.parse(localStorage.getItem("branch_info")).id
-
+if(localStorage.getItem("branch_info")){
+	branch_id = JSON.parse(localStorage.getItem("branch_info")).id
+}
 
 let country_id = 1;
 let teller = localStorage.getItem("key") ? localStorage.getItem("tellerNumber") : 0;
