@@ -90,9 +90,9 @@ const set_teller_number =()=>{
 
 
 
-const sync_service = (e)=>{
-	sync()
-}
+// const sync_service = (e)=>{
+// 	sync()
+// }
 
 const getData = (url,methods,data,handle) => {
 	fetch(url,{
@@ -128,41 +128,37 @@ getData(`${link}/branch/by/key`,"POST",{"key" : key},(data)=>{
 	}
 })
 
+ const sync = () => {
+	 $("#loading_gif").show()
+	 getData(`${link}/sync/init`,"POST",{"key" : JSON.parse(localStorage.getItem("branch_info")).msg.key_},(data)=>{
+		 //  perform some UI manipulations
+		 if(data){
+			 setTimeout(()=>{
+				 $("#loading_gif").hide()
+				 $("#message_sync").html(`<div class="alert alert-success" role="alert">Successfully Updated data</div>`)
+			 },10000)
+		 }else{
+			 // we are not geting the response
+			 $("#message_sync").html(`<div class="alert alert-danger" role="alert">Error! Could Not Updated data</div>`)
+		 }
+	 })
+ }
 
 
-
-
-//  const sync = () => {
-// 	 $("#loading_gif").show()
-// 	 getData(`${link}/sync/init`,"POST",{"key" : JSON.parse(localStorage.getItem("branch_info")).msg.key_},(data)=>{
-// 		 //  perform some UI manipulations
-// 		 if(data){
-// 			 setTimeout(()=>{
-// 				 $("#loading_gif").hide()
-// 				 $("#message_sync").html(`<div class="alert alert-success" role="alert">Successfully Updated data</div>`)
-// 			 },10000)
-// 		 }else{
-// 			 // we are not geting the response
-// 			 $("#message_sync").html(`<div class="alert alert-danger" role="alert">Error! Could Not Updated data</div>`)
-// 		 }
-// 	 })
-//  }
-
-
- // setInterval(()=>{
-	// getData(`${link}/sync/init`,"POST",{"key" : JSON.parse(localStorage.getItem("branch_info")).msg.key_},(data)=>{
-	// 	//  perform some UI manipulations
-	// 	if(data){
-	// 		setTimeout(()=>{
-	// 			$("#loading_gif").hide()
-	// 			$("#message_sync").html(`<div class="alert alert-success" role="alert">Successfully Updated data</div>`)
-	// 		},3000)
-	// 	}else{
-	// 		// we are not geting the response
-	// 		$("#message_sync").html(`<div class="alert alert-danger" role="alert">Error! Could NotUpdated data</div>`)
-	// 	}
-	// })
- // },30000)
+ setInterval(()=>{
+	getData(`${link}/sync/init`,"POST",{"key" : JSON.parse(localStorage.getItem("branch_info")).msg.key_},(data)=>{
+		//  perform some UI manipulations
+		if(data){
+			setTimeout(()=>{
+				$("#loading_gif").hide()
+				$("#message_sync").html(`<div class="alert alert-success" role="alert">Successfully Updated data</div>`)
+			},3000)
+		}else{
+			// we are not geting the response
+			$("#message_sync").html(`<div class="alert alert-danger" role="alert">Error! Could NotUpdated data</div>`)
+		}
+	})
+ },30000)
 
 // getting the local storage key
 
@@ -274,7 +270,8 @@ const getActive = (call=12) => {
 				handle.prop("disabled",true)
 				// play(data.caller)
 				let caller = data.caller
-				getData(`${link}/callout`,"POST",{"phrase" : caller},(data)=>{
+				let local_link = `http:/localhost:9900`
+				getData(`${local_link}/callout`,"POST",{"phrase" : caller},(data)=>{
 					if(data){
 					//	enable button else
 						handle.prop("disabled",false)
@@ -473,6 +470,7 @@ const nextTicket = () => {
 		getNext();
 		getActive(120);
 		required_services();
+		sio.emit('next_ticket',"")
 	})
 };
 
@@ -482,6 +480,7 @@ const closeTicket = () =>{
 	getData(`${link}/ticket/close`,"POST",{"teller_id" : teller},(data)=>{
 		$('#this_comment').hide()
 		sio.emit('hello',"")
+		sio.emit('next_ticket',"")
 		// getUpcoming();	
 		// getNext();
 		// getAll();
@@ -503,9 +502,9 @@ const closeTicket = () =>{
 // },3000);
 
 
-// setInterval(()=>{
-// 	sync()
-// },30000)
+setInterval(()=>{
+	sync()
+},60000)
 
 const settings_data = () => {
 	$(".modal-content").html(
@@ -530,7 +529,7 @@ const settings_data = () => {
 								</div>
 								<label for="icon_name">Teller Number </label>
 								<input type="text" id="teller_number" name ="icon_name" class="form-control form-control-sm">
-								<button class="btn btn btn-outline-danger btn-sm col-lg-12 modalInfo mt-4" id="set_teller_number"  onclick="set_teller_number()">Set Teller</button>
+								<button class="btn btn btn-info btn-sm col-lg-6 modalInfo mt-4" id="set_teller_number"  onclick="set_teller_number()">Set Teller</button>
 							</div>
 						</div>
 						<div class="row">
@@ -543,19 +542,6 @@ const settings_data = () => {
 								<input type="text" id="server_ip" name ="icon_name" class="form-control form-control-sm" placeholder="Please Set Address Before using app.'">
 								<button class="btn btn btn-info btn-sm  modalInfo mt-4" id="set_server_ip" onclick="set_server_ip(this)">Set The Server Address</button>
 							</div>
-							<div class="col-lg-6 mt-4">
-								<form action="" enctype="multipart/form-data" name="upload_icon" id="form_upload_icon">
-									<h5 class="header text-muted">Add Icon</h5>
-									<div id="message_icon"></div>
-									<label for="icon_name">Icon Name</label>
-									<input type="text" id="icon_name" name ="icon_name" class="form-control form-control-sm">
-
-									<label for="icon_file_icon" class="mt-2">Icon File</label>
-									<input type="file" id="icon_file_icon" name ="icon" class="form-control form-control-sm " accept="image/* ">
-									<input class="btn btn btn-outline-primary btn-sm col-lg-12 modalInfo mt-4"   name="submit" id="upload_icon" onclick="upload_icon_()" value="upload Icon">
-								</form>
-							</div>
-
 						</div>
 					</div>
 				</div>`
@@ -932,6 +918,7 @@ const finalize_forward = () =>{
 			$("#this_comment").val("")
 			$('#this_comment').hide()
 			sio.emit('hello',"")
+			sio.emit('next_ticket',"")
 		})
 	} else if (mandatory === "null"){
 		console.log("just normal forward")
@@ -945,6 +932,7 @@ const finalize_forward = () =>{
 			$("#this_comment").val("")
 			$('#this_comment').hide()
 			sio.emit('hello',"")
+			sio.emit('next_ticket',"")
 		})
 	}else{
 
