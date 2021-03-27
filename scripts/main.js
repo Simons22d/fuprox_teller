@@ -504,7 +504,8 @@ const settings_data = () => {
 		<span class="close" onclick="closeModal()" style="text-align:right">&times;</span>
 		<div id="pop" class="col-lg-12">
 			<h5  id="action_">Settings</h5>
-			<div class="row  col-lg-12 details">
+			<button class="btn btn btn-outline-success btn-sm  modalInfo mt-4 mb-4 pl-4 pr-4" onclick="open_portal()">Open The Branch Management Portal</button>
+			<div class="row  details">
 				<!-- test -->
 				<div class="col mt-3 " style="font-size:12px">
 				<h5  id="action_">Manager Teller and Service Offered</h5>
@@ -535,6 +536,7 @@ const settings_data = () => {
 								<button class="btn btn btn-info btn-sm  modalInfo mt-4" id="set_server_ip" onclick="set_server_ip(this)">Set The Server Address</button>
 							</div>
 						</div>
+
 					</div>
 				</div>`
 		)
@@ -884,7 +886,12 @@ function vidUrl(input) {
 		}
 }
 
+const open_portal =  () =>{
+	getData(`http://${addr}:1000/open/portal`,"POST",{"server_addr" : addr},()=>{
 
+
+	})
+}
 
 $("#file").change(function() {
 	vidUrl(this);
