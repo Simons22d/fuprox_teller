@@ -22,12 +22,12 @@ const verifyKey = (me) => {
 		console.log(data)
 		if(data){
 			localStorage.setItem("branch_info",JSON.stringify(data))
-			console.log("Data available")
 			localStorage.setItem("key",data["key_"])
-			
 			$("#branch").html(data.name)
 			$("#date").html(new Date())
 			$("#services").show()
+			reload()
+			reload()
 			
 		}else{
 			// app not activated
