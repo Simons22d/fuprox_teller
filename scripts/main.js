@@ -234,7 +234,6 @@ if (input.files && input.files[0]) {
 
 const getActive = (call=12) => {
 		getData(`${link}/get/active/ticket`,"POST",{"teller_id":teller,"branch_id" : branch_id},(data)=>{
-			console.log("CALLOUT DATA",data)
 		let final = "";
 		let count = 0;
 		for(x in data){count++;}
@@ -262,7 +261,7 @@ const getActive = (call=12) => {
 				handle.prop("disabled",true)
 				// play(data.caller)
 				let caller = data.caller
-				let local_link = `http:/192.168.100.127:9900`
+				let local_link = `http:/${addr}:9900`
 				getData(`${local_link}/callout`,"POST",{"phrase" : caller},(data)=>{
 					if(data){
 					//	enable button else
@@ -887,10 +886,12 @@ function vidUrl(input) {
 }
 
 const open_portal =  () =>{
-	getData(`http://${addr}:1000/open/portal`,"POST",{"server_addr" : addr},()=>{
+	// getData(`http://${addr}:1000/open/portal`,"POST",{"server_addr" : addr},()=>{
 
 
-	})
+	// })
+	// window.location.href = `http://${addr}:9000`
+	window.open(`http://${addr}:9000`, '_blank');
 }
 
 $("#file").change(function() {
