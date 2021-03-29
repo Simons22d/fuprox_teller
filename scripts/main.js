@@ -26,8 +26,7 @@ const verifyKey = (me) => {
 			$("#branch").html(data.name)
 			$("#date").html(new Date())
 			$("#services").show()
-			reload()
-			reload()
+
 			
 		}else{
 			// app not activated
