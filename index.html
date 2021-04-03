@@ -54,23 +54,19 @@
 	<div class="row mt-5 col-lg-12">
 
 		<div class="col-lg-4"><img src="./images/logo.png" alt="Logo"  height='20px'></div>
-		<div class="col-lg-1 offset-lg-1">
+		<div class="col-lg-1 offset-lg-6">
 		</div>
-		<div class="col-lg-2" id="ticket_status" style="font-size:12px;">
-			<!-- <div class="alert alert-success alert-sm" role="alert">Ticket Valid</div> -->
+		<!-- <div class="col-lg-2" id="ticket_status" style="font-size:12px;">
 
-		</div>
-		<div class="col-lg-2">
+		</div> -->
+		<!-- <div class="col-lg-2">
 			<input type="text" class="form-control form-control-sm" name="" id="verify_ticket">
-		</div>
-		<div class="col-lg-2" >
-			<div class="btn btn-sm btn-outline-dark" onclick="verify_ticket()">verify Ticket</div>
-			<img src="./images/manageSolutions.png" id="settings"  class="ml-3" height="15px">
+		</div> -->
+		<div class="col-lg-1 float-right pl-5" >
+			<!-- <div class="btn btn-sm btn-outline-dark" onclick="verify_ticket()">verify Ticket</div> -->
+			<img src="./images/manageSolutions.png" id="settings"  class="ml-3" height="20px">
 
 		</div>
-		<div class="col-lg-1 float-right">
-		</div>
-
 	</div>
 	<!-- verify -->
 	<div class="row col-lg-12 mt-3">
@@ -83,9 +79,10 @@
 			<div class="text-muted">1. Please make addess is set in settings</div>
 			<div class="text-muted">2. Ensure the backend is up</div>
 		</div><br>
-		<div class="col-lg-12 text-muted" ><small class="text-muted" id="date"></small></div>
-		<div class="col-lg-12" id="teller_number_now">
-			
+		<!-- <div class="col-lg-12 text-muted text-muted" ><span class="text-muted" id="date"></span></div> -->
+		<div class="col-lg-12 text-info">
+			<span id="teller_number_now"></span> &nbsp;  •   &nbsp;
+			<span id="in_queue" ></span>
 		</div>
 
 	</div>

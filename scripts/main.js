@@ -1,6 +1,6 @@
 let addr = localStorage.getItem("server_ip")
 let link = `http://${addr}:1000`
-
+let branch_id;
 
 const getData = (url,methods,data,handle) => {
 	fetch(url,{
@@ -72,6 +72,7 @@ sio.on('hello_data', () => {
 		getActive();
 		// getAll();
 		required_services()
+		updateQueue()
 });
 
 // end socket implementation
@@ -221,7 +222,7 @@ const updateServices =() =>{
 updateServices()
 
 
-function readURL(input) {
+const readURL = (input) =>  {
 if (input.files && input.files[0]) {
 	var reader = new FileReader();
 	reader.onload = function(e) {
@@ -233,6 +234,7 @@ if (input.files && input.files[0]) {
 
 const getActive = (call=12) => {
 		getData(`${link}/get/active/ticket`,"POST",{"teller_id":teller,"branch_id" : branch_id},(data)=>{
+			console.log("FGFFGFGFGG",data)
 		let final = "";
 		let count = 0;
 		for(x in data){count++;}
@@ -400,6 +402,7 @@ $(function() {
 	getActive()
 	// getAll()
 	required_services()
+	updateQueue()
 });
 
 const getTellerInfoOne = (me) => {
@@ -1024,11 +1027,13 @@ const getComments = (issue_id) => {
 }
 
 //setting  the teller number
-let teller_number_ = localStorage.getItem("tellerNumber") && localStorage.getItem("key") ? `<small class="">Teller Number — </small><small >${localStorage.getItem("tellerNumber")}</small>` : `<div class="row col-lg-12 mt-3">
+let teller_number_ = localStorage.getItem("tellerNumber") && localStorage.getItem("key") ? `Teller Number — ${localStorage.getItem("tellerNumber")} `: `<div class="row col-lg-12 mt-3">
 <img class="mt-1" src="./images/teller.png" alt="" height="20px" class="mt-5">
 <span class="col-lg-6 h6 mt-1 bold"> Error! Teller not set</span>
 </div>`
+let in_queue = localStorage.getItem("inqueue") && localStorage.getItem("key") ? `In Queue — ${localStorage.getItem("inqueue")} ` :`Queue Empty`;
 $("#teller_number_now").html(`${teller_number_}`)
+$("#in_queue").html(`${in_queue}`)
 
 const tellerExists = (teller_number,handle) => {
 	getData(`${link}/teller/exists`,"POST",{"teller":teller_number,"branch_id":branch_id},(data)=>{
@@ -1107,3 +1112,15 @@ function abortHandler(event){
 // 	text: 'Something went wrong!',
 // 	footer: '<a href>Why do I have this issue?</a>'
 //   })
+const updateQueue = () =>{
+	getData(`http://${addr}:1000/teller/bookings`, "POST",{"teller" : teller}, (data)=>{
+		console.log(data)
+		if(data){
+			localStorage.setItem("inqueu", data)
+			$("#in_queue").html(`In Queue — ${data}`)
+		}else{
+			localStorage.setItem("inqueu", false)
+		}
+	})
+}
+

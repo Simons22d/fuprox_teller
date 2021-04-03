@@ -1,7 +1,7 @@
 {
-  "name": "Fuprox-Teller",
+  "name": "NoQueue-Teller",
   "version": "1.0.0",
-  "description": "\"Fuprox main app\"",
+  "description": "\"NoQueue Teller\"",
   "main": "main.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -20,6 +20,6 @@
     "sweetalert2": "^10.15.6"
   },
   "devDependencies": {
-    "electron": "^9.4.0"
+    "electron": "^12.0.0"
   }
 }
