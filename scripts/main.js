@@ -75,6 +75,14 @@ sio.on('hello_data', () => {
 		updateQueue()
 });
 
+sio.on("online_booking_data",()=>{
+		getNext();
+		getActive();
+		required_services()
+		updateQueue()
+})
+
+
 // end socket implementation
 const set_server_ip = () => {
 	let server_ip = $("#server_ip").val()
@@ -458,7 +466,6 @@ const getTellerInfoTwo = (me) => {
 
 const nextTicket = () => {
 	getData(`${link}/ticket/service`,"POST",{"teller_id" : teller,"branch_id":branch_id},(data)=>{
-		console.log("DDDDDDDDDDDDDDDDDDDDDD",teller,branch_id)
 		getUpcoming();
 		getNext();
 		getActive(120);
@@ -776,9 +783,6 @@ $("#tellerNumber").html(teller)
 $("#icon_file_icon").change(function() {
 	readURL(this);
 });
-
-
-
 
 },1)
 });
