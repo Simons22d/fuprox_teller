@@ -54,7 +54,7 @@
 	<div class="row mt-5 col-lg-12">
 
 		<div class="col-lg-4"><img src="./images/logo.png" alt="Logo"  height='20px'></div>
-		<div class="col-lg-1 offset-lg-6">
+		<div class="col-lg-1 offset-lg-5">
 		</div>
 		<!-- <div class="col-lg-2" id="ticket_status" style="font-size:12px;">
 
@@ -62,6 +62,10 @@
 		<!-- <div class="col-lg-2">
 			<input type="text" class="form-control form-control-sm" name="" id="verify_ticket">
 		</div> -->
+		<div class="col-lg-1 float-right pl-5" onclick="reload()">
+			<img src="./images/reload.png" class="pl-5" height="20px">
+		</div>
+
 		<div class="col-lg-1 float-right pl-5" >
 			<!-- <div class="btn btn-sm btn-outline-dark" onclick="verify_ticket()">verify Ticket</div> -->
 			<img src="./images/manageSolutions.png" id="settings"  class="ml-3" height="20px">
@@ -88,12 +92,12 @@
 	</div>
 	<!-- end verify -->
 	<!-- body -->
-	<div class="row col-lg-12 mt-5" id="services" style="margin-left: 1px">
+	<div class="row col-lg-12 mt-5 gellix" id="services" style="margin-left: 1px">
 		<div class="col-lg-8">
-			<div class="row"><h5 class="text-muted">Next Ticket</h5></div>
+			<div class="row "><h5 class="gellix_header">Next Ticket</h5></div>
 			<div class="row" id="next_ticket"><h4 class="text-muted bold" id="nextTicket">—</h4></div>
 		<div class="row mt-5">
-			<div class="text-muted"><h5 class="text-muted">Upcoming Tickets</h5></div>
+			<div class="text-muted gellix"><h5 class="gellix_header">Upcoming Tickets</h5></div>
 		</div>
 			<div class="row upcoming">
 				<h5 class="text-muted bold" id="bookingOne">—</h5>
@@ -126,13 +130,13 @@
 		</div>
 
 		<div class="col-lg-4">
-			<h5 class="text-muted">Currently Serving</h5>
+			<h5 class="gellix_header">Currently Serving</h5>
 			<h5 class="text-muted bold" id="activeTicket">—</h5>
-			<h5 class="text-muted mt-5"><small>Ticket Info</small></h5>
+			<h5 class="text-muted mt-5"><small class="gellix_header">Ticket Info</small></h5>
 			<div class="ticket-info">
-				<div class="row"><span class="title col-lg-4"><small id="">Booking Type</small></span><span class="col-lg-1">:</span><span class="desc colg-l-6" ><small id="booking_type">—</small></span></div>
-				<div class="row"><span class="title col-lg-4"><small id="">Ticket Type</small></span><span class="col-lg-1">:</span><span class="desc colg-l-6" ><small id="ticket_type">—</small></span></div>
-				<div class="row"><span class="title col-lg-4"><small id="">Fowarded</small></span><span class="col-lg-1">:</span><span class="desc colg-l-6" ><small id="fowarded">—</small></span></div>
+				<div class="row"><span class="title col-lg-4"><small class='gellix_header' id="">Booking Type</small></span><span class="col-lg-1">:</span><span class="desc colg-l-6" ><small id="booking_type">—</small></span></div>
+				<div class="row"><span class="title col-lg-4"><small class='gellix_header' id="">Ticket Type</small></span><span class="col-lg-1">:</span><span class="desc colg-l-6" ><small id="ticket_type">—</small></span></div>
+				<div class="row"><span class="title col-lg-4"><small class='gellix_header' id="">Fowarded</small></span><span class="col-lg-1">:</span><span class="desc colg-l-6" ><small id="fowarded">—</small></span></div>
 			</div>
 			<div class="buttons">
 				<div class="row mt-5">
