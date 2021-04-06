@@ -26,8 +26,6 @@ const verifyKey = (me) => {
 			$("#branch").html(data.name)
 			$("#date").html(new Date())
 			$("#services").show()
-
-			
 		}else{
 			// app not activated
 			console.log("data not available")
