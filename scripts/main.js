@@ -26,7 +26,6 @@ const verifyKey = (me) => {
 			$("#services").show();
 			$("#teller_info").show()
 			reload();
-			reload();
 		}else{
 			// app not activated
 			console.log("data not available")
@@ -135,7 +134,6 @@ const set_teller_number =()=>{
 					localStorage.setItem("tellerNumber",Number(teller_number))
 					$("#message_teller").html(`<div class="alert alert-success" role="alert">Success Changing Teller. Make sure to restart app.<br> for changes to take effect</div>`);
 
-					reload();
 					reload();
 				}else{
 					$("#message_teller").html(`<div class="alert alert-danger" role="alert">Error must be a number.</div>`)
