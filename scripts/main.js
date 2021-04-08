@@ -951,14 +951,23 @@ const getComments = (issue_id) => {
 	let next_comment = $("#next_comment")
 
 	getData(`${link}/get/comments`,"POST",{"issue_id": issue_id},(data)=>{
+		console.log("COMMENTS",data)
 		let final_data = []
 		if (data.length < 3 ){ next_comment.hide()}
-		console.log(data.length)
 		if(data){
 			data.map((value,index)=>{
-				if(value.active){
+				console.log(value)
+				if(value){
+
 					final_data.push(JSON.stringify(value))
-					this_comment.html(`<p>${value.remarks}</p> <small> Teller from  — ${value.teller_from}</small><br><small> Date Forwarded  : ${new Date(value.date_added).toLocaleString()}</small>`)
+					let remarks = value.remarks.length > 0 ? value.remarks : "No remarks";
+					console.log(value.remarks.length,value.remarks)
+					if (Number(value.teller_from) === 0){
+						this_comment.append(`<div class="text-muted"><div class="bold">  First Serve  •  <small class="small bold">${new Date(value.date_added).toLocaleString()}</small></div> <div class="small bold text-info font-italic">${remarks}</div></div> <hr>`)
+					}else{
+						//
+						this_comment.append(`<div class="text-muted"> <div	 class="bold"> Teller from  — ${value.teller_from} •  <span class="small bold">${new Date(value.date_added).toLocaleString()}</span>  </div><div class="small bold text-info font-italic">${remarks}</div></div><hr>`)
+					}
 				}
 			})
 		}else{
