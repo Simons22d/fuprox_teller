@@ -63,8 +63,7 @@
 			<input type="text" class="form-control form-control-sm" name="" id="verify_ticket">
 		</div> -->
 		<div class="col-lg-1 float-right pl-5" >
-			<!-- <img src="./images/reload.png" class="pl-5" onclick="reload()"height="20px"> -->
-			<div class="btn btn-sm   btn-outline-dark gellix_header" onclick="reload()">Reload</div>
+			<div class="btn btn-sm  btn-outline-secondary gellix_header" style="border:2px solid lightgray;" onclick="reload()">Reload</div>
 		</div>
 
 		<div class="col-lg-1 float-right pl-5" >
@@ -85,7 +84,7 @@
 			<div class="text-muted">2. Ensure the backend is up</div>
 		</div><br>
 		<!-- <div class="col-lg-12 text-muted text-muted" ><span class="text-muted" id="date"></span></div> -->
-		<div class="col-lg-12 text-info">
+		<div class="col-lg-12 text-info" id="teller_info" style="display:none">
 			<span id="teller_number_now"></span> &nbsp;  •   &nbsp;
 			<span id="in_queue" ></span>
 		</div>
@@ -93,7 +92,7 @@
 	</div>
 	<!-- end verify -->
 	<!-- body -->
-	<div class="row col-lg-12 mt-5 gellix" id="services" style="margin-left: 1px">
+	<div class="row col-lg-12 mt-5 gellix" id="services" style="margin-left: 1px; display:none;">
 		<div class="col-lg-8">
 			<div class="row "><h5 class="gellix_header">Next Ticket</h5></div>
 			<div class="row" id="next_ticket"><h4 class="text-muted bold" id="nextTicket">—</h4></div>

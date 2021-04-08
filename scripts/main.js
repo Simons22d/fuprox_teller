@@ -17,15 +17,16 @@ const getData = (url,methods,data,handle) => {
 
 const verifyKey = (me) => {
 	let key = $("#key").val()
-	console.log(key)
 	getData(`${link}/app/activate`,"POST",{"key" : key},(data)=>{
-		console.log(data)
 		if(data){
-			localStorage.setItem("branch_info",JSON.stringify(data))
-			localStorage.setItem("key",data["key_"])
-			$("#branch").html(data.name)
-			$("#date").html(new Date())
-			$("#services").show()
+			localStorage.setItem("branch_info",JSON.stringify(data));
+			localStorage.setItem("key",data["key_"]);
+			$("#branch").html(data.name);
+			$("#date").html(new Date());
+			$("#services").show();
+			$("#teller_info").show()
+			reload();
+			reload();
 		}else{
 			// app not activated
 			console.log("data not available")
@@ -109,13 +110,10 @@ const verify_ticket = () =>{
 				if(data.status){
 					console.log("1")
 					$("#ticket_status").html(`<div class="alert alert-success" ">Ticket Valid</div>`)
-
 				}else{
 					console.log("2")
-
 					$("#ticket_status").html(`<div class="alert alert-danger" ">Ticket Invalid</div>`)
 				}
-			
 		})
 	}
 	$("#ticket_status").html(final)
@@ -126,8 +124,6 @@ const verify_ticket = () =>{
 let online_status = $(".status");
 let text_status = $(".status_text");
 
-
-
 const set_teller_number =()=>{
 	let teller_number = $("#teller_number").val()
 	getData(`${link}/teller/exists`,"POST",{"teller":teller_number,"branch_id" :branch_id},(data)=>{
@@ -137,8 +133,10 @@ const set_teller_number =()=>{
 			if(teller_number){
 				if(Number(teller_number)){
 					localStorage.setItem("tellerNumber",Number(teller_number))
-					$("#message_teller").html(`<div class="alert alert-success" role="alert">Success Changing Teller. Make sure to restart app.<br> for changes to take effect</div>`)
-					reload()
+					$("#message_teller").html(`<div class="alert alert-success" role="alert">Success Changing Teller. Make sure to restart app.<br> for changes to take effect</div>`);
+
+					reload();
+					reload();
 				}else{
 					$("#message_teller").html(`<div class="alert alert-danger" role="alert">Error must be a number.</div>`)
 				}
@@ -149,34 +147,7 @@ const set_teller_number =()=>{
 	})
 }
 
-
-
-// const sync_service = (e)=>{
-// 	sync()
-// }
-
-
-
-
 let key = localStorage.getItem("key")
-
-// getData(`${link}/branch/by/key`,"POST",{"key" : key},(data)=>{
-// 	console.log(data)
-// 	console.log("CCCCC>")
-// 	if(data.status){
-// 		$("#branch").html(data.name)
-// 		$("#date").html(new Date())
-// 		$("#services").show()
-// 	}else{
-// 		$("#branch").html(`
-// 		<img src="./images/key.png" alt="" height="40px" class="mt-3">
-// 		<div class="mt-2">Error! Application not activated</div>
-// 		<div class="text-muted">Please make sure you active the application from the backend provided</div>
-// 		`)
-// 		$("#services").hide()
-// 		localStorage.setItem("tellerNumber","")
-// 	}
-// })
 
 const enableInput = (handle) =>{
 	$(`#${handle}`).prop("disabled",false)
@@ -448,19 +419,6 @@ const getTellerInfoTwo = (me) => {
 		$("#requirement").html(`but first required to pass though teller ${id} [${service_name}] `)
 	}
 	sessionStorage.setItem("mandatory",id)
-	// here we are going to foward the ticket
-	// getData(`${link}/ticket/forward`,"POST",{"branch_id":branch_id,"teller_from":teller,"teller_to":this_id,"comment" :comment},(data)=>{
-	// 	// getUpcoming();
-	// 	// getNext();
-	// 	// getAll();
-	// 	$("#booking_type").html("—");
-	// 	$("#ticket_type").html("—");
-	// 	$("#fowarded").html("—");
-	// 	$("#activeTicket").html("—");
-	// 	$("#this_comment").val("")
-	// 	$('#this_comment').hide()
-	// 	sio.emit('hello',"")
-	// })
 };
 
 const nextTicket = () => {
@@ -475,16 +433,16 @@ const nextTicket = () => {
 
 const closeTicket = () =>{
 	sessionStorage.getItem("active_ticket")
+	let comment  = $("#this_comment").val()
 
-	getData(`${link}/ticket/close`,"POST",{"teller_id" : teller},(data)=>{
+	getData(`${link}/ticket/close`,"POST",{"teller_id" : teller, "comment" : comment},(data)=>{
 		$('#this_comment').hide()
 		sio.emit('hello',"")
 		sio.emit('next_ticket',"")
-		// getUpcoming();	
-		// getNext();
-		// getAll();
-		// required_services()
-		
+		getUpcoming();
+		getNext();
+		getAll();
+		required_services()
 		$("#booking_type").html("—")
 		$("#ticket_type").html("—")
 		$("#fowarded").html("—")
@@ -492,18 +450,6 @@ const closeTicket = () =>{
 
 	})
 };
-
-// setInterval(()=>{
-// 		getUpcoming();
-// 		getNext();
-// 		getActive();
-// 		getAll();
-// },3000);
-
-
-// setInterval(()=>{
-// 	sync()
-// },60000)
 
 const settings_data = () => {
 	$(".modal-content").html(
@@ -630,7 +576,6 @@ const settings_data = () => {
 									<div id="message_icon"></div>
 									<label for="icon_name">Icon Name</label>
 									<input type="text" id="icon_name" name ="icon_name" class="form-control form-control-sm">
-
 									<label for="icon_file_icon" class="mt-2">Icon File</label>
 									<input type="file" id="icon_file_icon" name ="icon" class="form-control form-control-sm " accept="image/* ">
 									<input class="btn btn btn-outline-primary btn-sm col-lg-12 modalInfo mt-4"   name="submit" id="upload_icon" onclick="upload_icon_()" value="upload Icon">
@@ -642,7 +587,7 @@ const settings_data = () => {
 									<div id="message_teller"></div>
 									<div class="tellerNumber text-muted">
 										<h1 id="tellerNumber">
-											4
+											-
 										</h1>
 									</div>
 									<label for="icon_name">Teller Number </label>
