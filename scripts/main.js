@@ -638,16 +638,15 @@ const foward_data = () => {
 		`
 		<span class="close" onclick="closeModal()" style="text-align:right">&times;</span>
 		<div id="pop" class="col-lg-12">
-			<h5  id="action_">Forward Ticket</h5>
+			<h5  id="action_" class="gellix">Forward Ticket</h5>
 			<!-- body start -->
 			<!-- top card  -->
 			<div class="row details">
 				<!-- test -->
-				<div class="col mt-3 " style="font-size:12px">
-				<h5  id="action__">Forward</h5>
+				<div class="col mt-2" style="font-size:12px">
 				<div class="row">
 					<div class="col-lg-6 mb-3" id="allocated">
-					 <p class="actions">Description<br><small>When one teller is selected, means that is no required steps are reuqired proir heading for that teller</small></p>
+					 <h5 class="actions gellix gellix_header">Forward to Teller<br><span class="text-info gellix_header ">When one teller is selected, means that is no required steps are required proir heading for that teller</span></h5>
 						<h5 class="text-muted mb-3"><span id="forwarded_to"></span></h5>
 						<div class="dropdown">
 						  <button class="btn btn-warning btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -656,20 +655,8 @@ const foward_data = () => {
 						  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" id="tellerOptionsOne"></div>
 						</div>
 					</div>
-					<div class="col-lg-6 row mt-5">
-						<h5 class="text-muted mt-5" id="comment_title">Previous Comment</h5>
-						<p class="col-lg-10 row"><small id="the_comment">—</small></p>
-						<div class="row col-lg-10">
-	<!--						<button class="col-lg-3 btn-sm btn btn-outline-dark btn-special"style="display:none" id="next_comment">Next</button>-->
-						</div>
-					</div>
-
-				</div>
-				<br/>
-				<h5  id="action__">Mandatory Teller</h5>
-				<div class="row">
-					<div class="col-lg-6 mb-3" id="allocated">
-						<p class="actions">Description<br><small>This Task Must be attended to first before the forwarded Teller</small></p>
+					<div class="col-lg-6 mb-2" id="allocated">
+					 <h5 class="actions gellix_header gellix">Mandatory Teller <br><span class="gellix_header gellix text-info">When this teller is selected, means that this ticket will be required to go through this station</span></p>
 						<h5 class="text-muted mb-3"><span id="requirement"></span></h5>
 						<div class="dropdown">
 						  <button class="btn btn-warning btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -678,12 +665,10 @@ const foward_data = () => {
 						  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" id="tellerOptionsTwo"></div>
 						</div>
 					</div>
-					<div class="col-lg-6 row mt-5">
-					<textarea class='form-control mt-5' id="this_comment" placeholder="Please Enters comment here " style="font-size:12px; display:none;" name="" id="" cols="40" rows="2"></textarea>
-					</div>
-				</div>
 
-				<button class="btn btn-primary btn-sm mt-5 mb-5 col-lg-5" type="button" onclick="finalize_forward()">
+				</div>
+				<br/>
+				<button class="btn btn-primary btn-sm  mb-5 col-lg-5" type="button" onclick="finalize_forward()">
 							Finalize Fowarding the ticket
 						  </button>
 			</div>
@@ -955,6 +940,7 @@ const getComments = (issue_id) => {
 		let final_data = []
 		if (data.length < 3 ){ next_comment.hide()}
 		if(data){
+			final = ""
 			data.map((value,index)=>{
 				console.log(value)
 				if(value){
@@ -962,14 +948,20 @@ const getComments = (issue_id) => {
 					final_data.push(JSON.stringify(value))
 					let remarks = value.remarks.length > 0 ? value.remarks : "No remarks";
 					console.log(value.remarks.length,value.remarks)
-					if (Number(value.teller_from) === 0){
-						this_comment.append(`<div class="text-muted"><div class="bold">  First Serve  •  <small class="small bold">${new Date(value.date_added).toLocaleString()}</small></div> <div class="small bold text-info font-italic">${remarks}</div></div> <hr>`)
+					if(index === 0){
+						final += (`<div class="text-muted"><div class="bold">  First Serve  •  <small class="small bold">${new Date(value.date_added).toLocaleString()}</small></div> <div class="small bold text-info font-italic">——</div></div>`)
 					}else{
-						//
-						this_comment.append(`<div class="text-muted"> <div	 class="bold"> Teller from  — ${value.teller_from} •  <span class="small bold">${new Date(value.date_added).toLocaleString()}</span>  </div><div class="small bold text-info font-italic">${remarks}</div></div><hr>`)
+						if (Number(value.teller_from) === 0){
+						}else{
+							//
+							final += (`<div class="text-muted"> <div	 class="bold"> Teller from  — ${value.teller_from} •  <span class="small bold">${new Date(value.date_added).toLocaleString()}</span>  </div><div class="small bold text-info font-italic">${remarks}</div></div><hr>`)
+						}
 					}
+
 				}
 			})
+			console.log(final)
+			this_comment.html(final)
 		}else{
 			prev_comment.hide()
 			next_comment.hide()
@@ -978,6 +970,8 @@ const getComments = (issue_id) => {
 		sessionStorage.setItem("comments",final_data)
 	})
 }
+
+
 
 //setting  the teller number
 let teller_number_ = localStorage.getItem("tellerNumber") && localStorage.getItem("key") ? `Teller Number — ${localStorage.getItem("tellerNumber")} `: `<div class="row col-lg-12 mt-3">
@@ -1003,16 +997,6 @@ const tellerExists = (teller_number,handle) => {
 	})
 }
 
-// $("#settings").on("click",()=>{
-// 	$("#myModal").show()
-// });
-// $("#settings_").on("click",()=>{
-// 	$("#myModal2").show()
-// });
-
-// $(".close").on("click",()=>{
-// 	$("#myModal").hide()
-// });
 
 
 const reset_tickets = ()=>{
