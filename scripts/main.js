@@ -64,20 +64,19 @@ sio.on('disconnect', () => {
 });
 
 sio.on('hello_data', () => {
-  console.log('hello_data');
   	getUpcoming();
 		getNext();
 		getActive();
-		// getAll();
 		required_services()
 		updateQueue()
 });
 
 sio.on("online_booking_data",()=>{
-		getNext();
-		getActive();
-		required_services()
-		updateQueue()
+	getUpcoming();
+	getNext();
+	getActive();
+	required_services()
+	updateQueue()
 })
 
 
