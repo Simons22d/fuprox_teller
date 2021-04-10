@@ -114,15 +114,16 @@
 			<!-- comments -->
 
 			<div class="row" id="comments mt-5">
+
 				<div class="col-lg-6 row mt-5">
 <!--					<div class="bold text-muted gellix_header" id="comment_title">Previous Comment</div>-->
-					<div class="text-muted gellix"><h5 class="gellix_header">Comment History</h5></div>
-					<p class="col-lg-10 row"><small id="the_comment"></small></p>
+					<div class="text-muted gellix"><h5 class="gellix_header">Comment History <span class="text-primary" id="comment_status">°</span></h5></div>
+					<p class="col-lg-10 row mt-3"><small id="the_comment" style="overflow-y: scroll; height:200px;"></small></p>
 					<div class="row col-lg-10">
 						<button class="col-lg-3 btn-sm btn btn-outline-dark btn-special"style="display:none" id="next_comment">Next</button>
 					</div>
 				</div>
-				<div class="col-lg-6 row ">
+				<div class="col-lg-6 row " style="height:180px;">
 					<textarea class='form-control mt-5' id="this_comment" placeholder="Please Enters comment here " style="font-size:12px; display:none;" name="" id="" cols="40" rows="2"></textarea>
 				</div>
 			</div>
@@ -134,6 +135,7 @@
 			<h5 class="gellix_header">Currently Serving</h5>
 			<h5 class="text-muted bold" id="activeTicket">—</h5>
 			<h5 class="text-muted mt-5"><small class="gellix_header">Ticket Info</small></h5>
+			<h5 class="mb-3 title "><small class="gellix_header small text-success" style="font-size:13px;" id="mandatory"></small></h5>
 			<div class="ticket-info">
 				<div class="row"><span class="title col-lg-4"><small class='gellix_header' id="">Booking Type</small></span><span class="col-lg-1">:</span><span class="desc colg-l-6" ><small id="booking_type">—</small></span></div>
 				<div class="row"><span class="title col-lg-4"><small class='gellix_header' id="">Ticket Type</small></span><span class="col-lg-1">:</span><span class="desc colg-l-6" ><small id="ticket_type">—</small></span></div>
@@ -145,17 +147,6 @@
 					<button class="btn btn-success col-lg-12" id="nxtTicket" onclick="nextTicket()">Next ticket</button>
 				</div>
 				</div>
-<!-- 
-				<div class="row mt-2">
-				<div class="col-lg-12">
-					<div class="dropdown">
-					  <button class="btn btn-danger dropdown-toggle btn-block" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-						Forward Booking with a requirement
-					  </button>
-					  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" id="forwardWithOptions"></div>
-					</div>
-				</div>
-				</div> -->
 			</div>
 			<div class="buttons">
 				<div class="row mt-4">

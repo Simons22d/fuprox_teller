@@ -212,9 +212,19 @@ const getActive = (call=12) => {
 		let count = 0;
 		for(x in data){count++;}
 		if(count){
+			console.log("454554",count)
 			// start
 			// end
-
+			if(data.teller_booking && Number(data.teller_booking.pre_req) > 0){
+				$("#mandatory").html(`<span id="comment_msg_status">Mandatory from teller ${data.teller_booking.teller_to} to ${data.teller_booking.teller_from} via <u>this teller [${data.teller_booking.pre_req}]</u></span>`)
+				$("#forward").hide()
+			}else if(data.teller_booking && Number(data.teller_booking.teller_from) > 0){
+				$("#mandatory").html(`<span id="comment_msg_status">Forwarded  from Teller ${ data.teller_booking.teller_from}</span>`)
+				$("#forward").show()
+			}
+			// if (count > 2){
+			// 	$("#comment_status").show()
+			// }
 			$("#this_comment").show()
 			let fowarded = data.forwarded ? "Fowarded" : "Not Fowarded"
 			let is_instant = data.is_instant ? `<span href=\"#\" class=\"badge badge-info\" style="font-size:12px">Insant</span>` : `<span href=\"#\" class=\"badge badge-dark\" style="font-size:12px">Not Insant</span>`
@@ -229,8 +239,7 @@ const getActive = (call=12) => {
 				sessionStorage.setItem("active_ticket",data['id'])
 			final += `${data.ticket}`;
 			if (call ===120 ){
-				// testing 
-
+				// testing
 				let handle = $("#nxtTicket")
 				handle.prop("disabled",true)
 				// play(data.caller)
@@ -246,6 +255,7 @@ const getActive = (call=12) => {
 			}
 		}else {
 			final += '——'
+			// $("#comment_status").hide()
 		}
 		$("#activeTicket").html(final)
 	})
@@ -305,14 +315,12 @@ const getNext = () =>{
 		// next ticket
 		
 	getData(`${link}/get/next/ticket`,"POST",{"teller_id":teller,"branch_id" : branch_id},(data)=>{
-		console.log("teller",teller)
-		console.log(data)
 		let final ="";
-		
 		let count = 0;
 		for(x in data){count++;}
 
 		if(count){
+			getComments()
 			final += `${data.ticket}`
 		}else{
 			final += `——`
@@ -437,7 +445,8 @@ const closeTicket = () =>{
 		sio.emit('next_ticket',"")
 		getUpcoming();
 		getNext();
-		getAll();
+		getAllOne()
+		getAllTwo()
 		required_services()
 		$("#booking_type").html("—")
 		$("#ticket_type").html("—")
@@ -944,23 +953,22 @@ const getComments = (issue_id) => {
 			data.map((value,index)=>{
 				console.log(value)
 				if(value){
-
 					final_data.push(JSON.stringify(value))
 					let remarks = value.remarks.length > 0 ? value.remarks : "No remarks";
 					console.log(value.remarks.length,value.remarks)
 					if(index === 0){
+						$("#comment_status").hide()
 						final += (`<div class="text-muted"><div class="bold">  First Serve  •  <small class="small bold">${new Date(value.date_added).toLocaleString()}</small></div> <div class="small bold text-info font-italic">——</div></div>`)
 					}else{
 						if (Number(value.teller_from) === 0){
 						}else{
 							//
+							$("#comment_status").show()
 							final += (`<div class="text-muted"> <div	 class="bold"> Teller from  — ${value.teller_from} •  <span class="small bold">${new Date(value.date_added).toLocaleString()}</span>  </div><div class="small bold text-info font-italic">${remarks}</div></div><hr>`)
 						}
 					}
-
 				}
 			})
-			console.log(final)
 			this_comment.html(final)
 		}else{
 			prev_comment.hide()

@@ -132,4 +132,9 @@ html{
     padding-right:2px;
 }
 
+#comment_msg_status{
+    border: 2px solid #a0e3a3;
+    padding:4px 10px;
+    border-radius: 4px;
 
+}
