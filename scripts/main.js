@@ -312,7 +312,7 @@ const makeConfirmation = (me) =>{
 }
 
 const getNext = () =>{
-	$("#mandatory").html()
+	$("#mandatory").html("")
 		// next ticket
 	getData(`${link}/get/next/ticket`,"POST",{"teller_id":teller,"branch_id" : branch_id},(data)=>{
 		let final ="";
@@ -436,9 +436,9 @@ const nextTicket = () => {
 const closeTicket = () =>{
 	sessionStorage.getItem("active_ticket")
 	let comment  = $("#this_comment").val()
-
 	getData(`${link}/ticket/close`,"POST",{"teller_id" : teller, "comment" : comment},(data)=>{
 		$('#this_comment').hide()
+		$("#mandatory").html("")
 		sio.emit('hello',"")
 		sio.emit('next_ticket',"")
 		getUpcoming();
