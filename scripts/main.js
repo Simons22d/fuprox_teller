@@ -318,13 +318,12 @@ const getNext = () =>{
 		let final ="";
 		let count = 0;
 		for(x in data){count++;}
-
-		if(count){
-			getComments()
-			final += `${data.ticket}`
-		}else{
-			final += `——`
-		}
+			if(count){
+				// getComments()
+				final += `${data.ticket}`
+			}else{
+				final += `——`
+			}
 		$("#nextTicket").html(final)
 	})
 };
@@ -332,7 +331,6 @@ const getNext = () =>{
 
 
 const getUpcoming = () =>{
-	"ss"
 	let mapper = ["","bookingOne","bookingTwo","bookingThree","bookingFour","bookingFive"]
 	getData(`${link}/get/upcoming/tickets`,"POST",{"teller_id":teller,"branch_id":branch_id},(data)=>{
 		console.log("Ucpcoing", data)
