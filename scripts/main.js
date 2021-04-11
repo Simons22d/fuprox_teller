@@ -312,8 +312,8 @@ const makeConfirmation = (me) =>{
 }
 
 const getNext = () =>{
+	$("#mandatory").html()
 		// next ticket
-		
 	getData(`${link}/get/next/ticket`,"POST",{"teller_id":teller,"branch_id" : branch_id},(data)=>{
 		let final ="";
 		let count = 0;
