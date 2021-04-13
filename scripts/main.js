@@ -216,15 +216,12 @@ const getActive = (call=12) => {
 			// start
 			// end
 			if(data.teller_booking && Number(data.teller_booking.pre_req) > 0){
-				$("#mandatory").html(`<span id="comment_msg_status">Mandatory from teller ${data.teller_booking.teller_to} to ${data.teller_booking.teller_from} via <u>this teller [${data.teller_booking.pre_req}]</u></span>`)
+				$("#mandatory").html(`<span id="comment_msg_status">Mandatory from teller ${data.teller_booking.teller_from} to ${data.teller_booking.teller_to} via <u>this teller [${data.teller_booking.pre_req}]</u></span>`)
 				$("#forward").hide()
 			}else if(data.teller_booking && Number(data.teller_booking.teller_from) > 0){
 				$("#mandatory").html(`<span id="comment_msg_status">Forwarded  from Teller ${ data.teller_booking.teller_from}</span>`)
 				$("#forward").show()
 			}
-			// if (count > 2){
-			// 	$("#comment_status").show()
-			// }
 			$("#this_comment").show()
 			let fowarded = data.forwarded ? "Fowarded" : "Not Fowarded"
 			let is_instant = data.is_instant ? `<span href=\"#\" class=\"badge badge-info\" style="font-size:12px">Insant</span>` : `<span href=\"#\" class=\"badge badge-dark\" style="font-size:12px">Not Insant</span>`
@@ -313,13 +310,12 @@ const makeConfirmation = (me) =>{
 
 const getNext = () =>{
 	$("#mandatory").html("")
-		// next ticket
+	// next ticket
 	getData(`${link}/get/next/ticket`,"POST",{"teller_id":teller,"branch_id" : branch_id},(data)=>{
 		let final ="";
 		let count = 0;
 		for(x in data){count++;}
 			if(count){
-				// getComments()
 				final += `${data.ticket}`
 			}else{
 				final += `——`
@@ -328,13 +324,11 @@ const getNext = () =>{
 	})
 };
 
-
-
 const getUpcoming = () =>{
 	let mapper = ["","bookingOne","bookingTwo","bookingThree","bookingFour","bookingFive"]
 	getData(`${link}/get/upcoming/tickets`,"POST",{"teller_id":teller,"branch_id":branch_id},(data)=>{
-		console.log("Ucpcoing", data)
-		console.log("ADDRESS", addr)
+		console.log("Upcoming", data)
+		console.log("Address", addr)
 		if(data.length === 4){
 			$("#bookingFive").html("—")
 			$("#bookingFour").html("—")
