@@ -207,7 +207,6 @@ if (input.files && input.files[0]) {
 
 const getActive = (call=12) => {
 		getData(`${link}/get/active/ticket`,"POST",{"teller_id":teller,"branch_id" : branch_id},(data)=>{
-			console.log("FGFFGFGFGG",data)
 		let final = "";
 		let count = 0;
 		for(x in data){count++;}
@@ -263,11 +262,11 @@ const getAllOne = () => {
 		let final =" "
 		console.log(tellers)
 		tellers.map((data,index)=>{
-			if(Number(data.number) === Number(localStorage.getItem("tellerNumber"))){
-
-			}else{
+			// if(Number(data.number) === Number(localStorage.getItem("tellerNumber"))){
+			//
+			// }else{
 				final += `<a class="dropdown-item"  onclick="getTellerInfoOne(this)" class="tellers" id="${data.number}-${data.service}">Teller ${data.number} - ${data.service}</a>`
-			}
+			// }
 		})
 		$("#tellerOptionsOne").html(final)
 	})
@@ -278,11 +277,11 @@ const getAllTwo = () => {
 		let final =`<a class="dropdown-item"  onclick="getTellerInfoTwo(this)" class="tellers" id="Null">None</a>`
 		console.log(tellers)
 		tellers.map((data,index)=>{
-			if(Number(data.number) === Number(localStorage.getItem("tellerNumber"))){
-
-			}else{
+			// if(Number(data.number) === Number(localStorage.getItem("tellerNumber"))){
+			//
+			// }else{
 				final += `<a class="dropdown-item"  onclick="getTellerInfoTwo(this)" class="tellers" id="${data.number}-${data.service}">Teller ${data.number} - ${data.service}</a>`
-			}
+			// }
 		})
 		$("#tellerOptionsTwo").html(final)
 	})
