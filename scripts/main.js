@@ -996,23 +996,12 @@ const tellerExists = (teller_number,handle) => {
 	})
 }
 
-
-
-const reset_tickets = ()=>{
-	// let val = prompt("Are You sure you want to reset ?")
-	getData(`http://159.65.144.235:4000/ticket/reset`,"POST",{},(data)=>{
-		if(data){
-
-		}else{
-
-		}
-	})
-}
-
 function _(el){
 	return document.getElementById(el);
 }
+
 function uploadFile(){
+	var file = _("file1").files[0];
 	var file = _("file1").files[0];
 	// alert(file.name+" | "+file.size+" | "+file.type);
 	var formdata = new FormData();
@@ -1051,11 +1040,12 @@ function abortHandler(event){
 const updateQueue = () =>{
 	getData(`http://${addr}:1000/teller/bookings`, "POST",{"teller" : teller}, (data)=>{
 		console.log(data)
-		if(data){
+		if(data.length > 0){
 			localStorage.setItem("inqueu", data)
 			$("#in_queue").html(`In Queue — ${data}`)
 		}else{
 			localStorage.setItem("inqueu", false)
+			$("#in_queue").html(`Queue Empty`)
 		}
 	})
 }
