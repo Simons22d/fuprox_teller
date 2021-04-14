@@ -1039,13 +1039,14 @@ function abortHandler(event){
 //   })
 const updateQueue = () =>{
 	getData(`http://${addr}:1000/teller/bookings`, "POST",{"teller" : teller}, (data)=>{
-		console.log(data)
-		if(data.length > 0){
+		console.log("INQUEUE",data)
+		if(data > 0){
+			console.log("HOWDY")
 			localStorage.setItem("inqueu", data)
 			$("#in_queue").html(`In Queue — ${data}`)
 		}else{
 			localStorage.setItem("inqueu", false)
-			$("#in_queue").html(`Queue Empty`)
+			// $("#in_queue").html(`Queue Empty`)
 		}
 	})
 }
