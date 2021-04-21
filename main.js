@@ -46,3 +46,4 @@ app.on('ready',() =>{
     createWindows();
 });
 
+app.disableHardwareAcceleration()

@@ -64,7 +64,7 @@ sio.on('disconnect', () => {
 });
 
 sio.on('hello_data', () => {
-  	getUpcoming();
+  		getUpcoming();
 		getNext();
 		getActive();
 		required_services()
@@ -216,10 +216,10 @@ const getActive = (call=12) => {
 			// end
 			if(data.teller_booking && Number(data.teller_booking.pre_req) > 0){
 				$("#mandatory").html(`<span id="comment_msg_status">Mandatory from teller ${data.teller_booking.teller_from} to ${data.teller_booking.teller_to} via <u>this teller [${data.teller_booking.pre_req}]</u></span>`)
-				$("#forward").hide()
+				// $("#forward").hide()
 			}else if(data.teller_booking && Number(data.teller_booking.teller_from) > 0){
 				$("#mandatory").html(`<span id="comment_msg_status">Forwarded  from Teller ${ data.teller_booking.teller_from}</span>`)
-				$("#forward").show()
+				// $("#forward").show()
 			}
 			$("#this_comment").show()
 			let fowarded = data.forwarded ? "Fowarded" : "Not Fowarded"
@@ -308,7 +308,7 @@ const makeConfirmation = (me) =>{
 }
 
 const getNext = () =>{
-	$("#mandatory").html("")
+	// $("#mandatory").html("")
 	// next ticket
 	getData(`${link}/get/next/ticket`,"POST",{"teller_id":teller,"branch_id" : branch_id},(data)=>{
 		let final ="";
@@ -386,19 +386,6 @@ const getTellerInfoOne = (me) => {
 	let service_name = service_split[1]
 	$("#forwarded_to").html(`To be forwarded to teller ${id} [${service_name}]`)
 	sessionStorage.setItem("forwarded_to",id)
-	// here we are going to foward the ticket
-	// getData(`${link}/ticket/forward`,"POST",{"branch_id":branch_id,"teller_from":teller,"teller_to":this_id,"comment" :comment},(data)=>{
-	// 	// getUpcoming();
-	// 	// getNext();
-	// 	// getAll();
-	// 	$("#booking_type").html("—");
-	// 	$("#ticket_type").html("—");
-	// 	$("#fowarded").html("—");
-	// 	$("#activeTicket").html("—");
-	// 	$("#this_comment").val("")
-	// 	$('#this_comment').hide()
-	// 	sio.emit('hello',"")
-	// })
 };
 
 const getTellerInfoTwo = (me) => {
