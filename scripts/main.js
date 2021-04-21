@@ -211,15 +211,14 @@ const getActive = (call=12) => {
 		let count = 0;
 		for(x in data){count++;}
 		if(count){
-			console.log("454554",count)
 			// start
 			// end
 			if(data.teller_booking && Number(data.teller_booking.pre_req) > 0){
 				$("#mandatory").html(`<span id="comment_msg_status">Mandatory from teller ${data.teller_booking.teller_from} to ${data.teller_booking.teller_to} via <u>this teller [${data.teller_booking.pre_req}]</u></span>`)
-				// $("#forward").hide()
+				$("#forward").hide()
 			}else if(data.teller_booking && Number(data.teller_booking.teller_from) > 0){
 				$("#mandatory").html(`<span id="comment_msg_status">Forwarded  from Teller ${ data.teller_booking.teller_from}</span>`)
-				// $("#forward").show()
+				$("#forward").show()
 			}
 			$("#this_comment").show()
 			let fowarded = data.forwarded ? "Fowarded" : "Not Fowarded"
@@ -320,6 +319,7 @@ const getNext = () =>{
 				final += `——`
 			}
 		$("#nextTicket").html(final)
+		$("#forward").show()
 	})
 };
 
@@ -430,7 +430,7 @@ const closeTicket = () =>{
 		$("#ticket_type").html("—")
 		$("#fowarded").html("—")
 		$("#activeTicket").html("—")
-
+		$("#the_comment").html("-")
 	})
 };
 
