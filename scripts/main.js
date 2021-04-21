@@ -207,18 +207,23 @@ if (input.files && input.files[0]) {
 
 const getActive = (call=12) => {
 		getData(`${link}/get/active/ticket`,"POST",{"teller_id":teller,"branch_id" : branch_id},(data)=>{
+			console.log("GET ACTIVE DATA",data)
 		let final = "";
 		let count = 0;
 		for(x in data){count++;}
 		if(count){
-			// start
-			// end
+
+			if(data.teller_booking.pre_req){
+				$("#forward").hide()
+			}else{
+				$("#forward").show()
+			}
+
 			if(data.teller_booking && Number(data.teller_booking.pre_req) > 0){
 				$("#mandatory").html(`<span id="comment_msg_status">Mandatory from teller ${data.teller_booking.teller_from} to ${data.teller_booking.teller_to} via <u>this teller [${data.teller_booking.pre_req}]</u></span>`)
-				$("#forward").hide()
+				notify("info",`Mandatory request from teller ${data.teller_booking.teller_from} `)
 			}else if(data.teller_booking && Number(data.teller_booking.teller_from) > 0){
 				$("#mandatory").html(`<span id="comment_msg_status">Forwarded  from Teller ${ data.teller_booking.teller_from}</span>`)
-				$("#forward").show()
 			}
 			$("#this_comment").show()
 			let fowarded = data.forwarded ? "Fowarded" : "Not Fowarded"
@@ -307,7 +312,6 @@ const makeConfirmation = (me) =>{
 }
 
 const getNext = () =>{
-	// $("#mandatory").html("")
 	// next ticket
 	getData(`${link}/get/next/ticket`,"POST",{"teller_id":teller,"branch_id" : branch_id},(data)=>{
 		let final ="";
@@ -319,9 +323,9 @@ const getNext = () =>{
 				final += `——`
 			}
 		$("#nextTicket").html(final)
-		$("#forward").show()
 	})
 };
+
 
 const getUpcoming = () =>{
 	let mapper = ["","bookingOne","bookingTwo","bookingThree","bookingFour","bookingFive"]
@@ -431,6 +435,7 @@ const closeTicket = () =>{
 		$("#fowarded").html("—")
 		$("#activeTicket").html("—")
 		$("#the_comment").html("-")
+		$("#forwa").show()
 	})
 };
 
@@ -821,65 +826,64 @@ $("#upload_video").on("click",(e)=>{
 	let icon = video_data
 })
 
-const finalize_forward = () =>{
+const finalize_forward = () => {
 	let frwd = sessionStorage.getItem("forwarded_to")
 	let mandatory = sessionStorage.getItem("mandatory")
 	let comment = $("#this_comment").val()
-
-	if(mandatory !== "null" && frwd === "null"){
-		console.log("mandtory but forwarded")
-		getData(`${link}/ticket/forward`,"POST",{"branch_id":branch_id,"teller_from":teller,"teller_to":mandatory,"comment" :comment,"mandatory" : null},(data)=>{
-			$("#booking_type").html("—");
-			$("#ticket_type").html("—");
-			$("#fowarded").html("—");
-			$("#activeTicket").html("—");
-			$("#this_comment").val("")
-			$('#this_comment').hide()
-			sio.emit('hello',"")
-			sio.emit('next_ticket',"")
-		})
-	} else if (mandatory === "null"){
-		console.log("just normal forward")
-		// we assume this is anormal forward
-		// here we are going to foward the ticket
-		getData(`${link}/ticket/forward`,"POST",{"branch_id":branch_id,"teller_from":teller,"teller_to":frwd,"comment" :comment,"mandatory" : null},(data)=>{
-			$("#booking_type").html("—");
-			$("#ticket_type").html("—");
-			$("#fowarded").html("—");
-			$("#activeTicket").html("—");
-			$("#this_comment").val("")
-			$('#this_comment').hide()
-			sio.emit('hello',"")
-			sio.emit('next_ticket',"")
-		})
+	console.log("forward to", frwd, "mandatory", mandatory, "this teller", teller)
+	if (Number(frwd) && mandatory === "null") {
+		notify("Error!", "You may not forward a ticket to youself")
+	} else if (Number(frwd) === Number(mandatory)) {
+		notify("Error!", "Forwarding with mandatory to the same teller is not allowed.")
 	}else{
+		if(mandatory !== "null" && frwd === "null"){
+			getData(`${link}/ticket/forward`,"POST",{"branch_id":branch_id,"teller_from":teller,"teller_to":mandatory,"comment" :comment,"mandatory" : null},(data)=>{
+				$("#booking_type").html("—");
+				$("#ticket_type").html("—");
+				$("#fowarded").html("—");
+				$("#activeTicket").html("—");
+				$("#this_comment").val("")
+				$('#this_comment').hide()
+				sio.emit('hello',"")
+				sio.emit('next_ticket',"")
+			})
+		} else if (mandatory === "null"){
+			// we assume this is anormal forward
+			// here we are going to foward the ticket
+			getData(`${link}/ticket/forward`,"POST",{"branch_id":branch_id,"teller_from":teller,"teller_to":frwd,"comment" :comment,"mandatory" : null},(data)=>{
 
-		// we assume there is a manadatory task 
-		// here we are going to foward the ticket
-		getData(`${link}/ticket/forward`,"POST",{"branch_id":branch_id,"teller_from":teller,"teller_to":frwd,"comment" :comment,"mandatory" : mandatory},(data)=>{
-			$("#booking_type").html("—");
-			$("#ticket_type").html("—");
-			$("#fowarded").html("—");
-			$("#activeTicket").html("—");
-			$("#this_comment").val("")
-			$('#this_comment').hide()
-			sio.emit('hello',"")
-		})
+				$("#booking_type").html("—");
+				$("#ticket_type").html("—");
+				$("#fowarded").html("—");
+				$("#activeTicket").html("—");
+				$("#this_comment").val("")
+				$('#this_comment').hide()
+				sio.emit('hello',"")
+				sio.emit('next_ticket',"")
+			})
+		}else{
+			// we assume there is a manadatory task
+			// here we are going to foward the ticket
+			getData(`${link}/ticket/forward`,"POST",{"branch_id":branch_id,"teller_from":teller,"teller_to":frwd,"comment" :comment,"mandatory" : mandatory},(data)=>{
+				if (Number(frwd) && mandatory !== "null") {
+					notify("Info!", `Kickback request to teller ${mandatory} initiated`)
+				}else{
+					notify("Info!", `Ticket forwarded with mandatory from teller ${teller} to teller ${frwd} via ${mandatory}`)
+				}
+
+				$("#booking_type").html("—");
+				$("#ticket_type").html("—");
+				$("#fowarded").html("—");
+				$("#activeTicket").html("—");
+				$("#this_comment").val("")
+				$('#this_comment').hide()
+				sio.emit('hello',"")
+			})
+		}
+		$("#myModal").hide()
+		$("#comment").html("")
 	}
-	$("#myModal").hide()
-	// here we are going to foward the ticket
-	// getData(`${link}/ticket/forward`,"POST",{"branch_id":branch_id,"teller_from":teller,"teller_to":this_id,"comment" :comment},(data)=>{
-	// 	// getUpcoming();
-	// 	// getNext();
-	// 	// getAll();
-	// 	$("#booking_type").html("—");
-	// 	$("#ticket_type").html("—");
-	// 	$("#fowarded").html("—");
-	// 	$("#activeTicket").html("—");
-	// 	$("#this_comment").val("")
-	// 	$('#this_comment').hide()
-	// 	sio.emit('hello',"")
-	// })
+
 }
 
 
@@ -923,10 +927,13 @@ const getComments = (issue_id) => {
 	let next_comment = $("#next_comment")
 
 	getData(`${link}/get/comments`,"POST",{"issue_id": issue_id},(data)=>{
-		console.log("COMMENTS",data)
+
 		let final_data = []
 		if (data.length < 3 ){ next_comment.hide()}
 		if(data){
+			if (data.pre_req){
+				$("#forward").hide()
+			}
 			final = ""
 			data.map((value,index)=>{
 				console.log(value)
@@ -942,7 +949,7 @@ const getComments = (issue_id) => {
 						}else{
 							//
 							$("#comment_status").show()
-							final += (`<div class="text-muted"> <div	 class="bold"> Teller from  — ${value.teller_from} •  <span class="small bold">${new Date(value.date_added).toLocaleString()}</span>  </div><div class="small bold text-info font-italic">${remarks}</div></div><hr>`)
+							final += (`<div class="text-muted"> <div class="bold"> Teller from  — ${value.teller_from} •  <span class="small bold">${new Date(value.date_added).toLocaleString()}</span>  </div><div class="small bold text-info font-italic">${remarks}</div></div><hr>`)
 						}
 					}
 				}
@@ -986,6 +993,11 @@ const tellerExists = (teller_number,handle) => {
 function _(el){
 	return document.getElementById(el);
 }
+
+const notify = (title,message) => {
+	new Notification(title,{"body":message})
+}
+
 
 function uploadFile(){
 	var file = _("file1").files[0];
