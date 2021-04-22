@@ -79,6 +79,16 @@ sio.on("online_booking_data",()=>{
 	updateQueue()
 })
 
+sio.on("reset_status_data",()=>{
+	inform_reset()
+})
+
+
+const inform_reset = () =>{
+	console.log("tickets are resetting ")
+	notify("Info!", "Tickets are currently reseting")
+}
+
 
 // end socket implementation
 const set_server_ip = () => {
