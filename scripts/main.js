@@ -841,8 +841,10 @@ const finalize_forward = () => {
 	let mandatory = sessionStorage.getItem("mandatory")
 	let comment = $("#this_comment").val()
 	console.log("forward to", frwd, "mandatory", mandatory, "this teller", teller)
-	if (Number(frwd) && mandatory === "null") {
+	console.log(Number(frwd) === Number(mandatory))
+	if (Number(frwd) === Number(teller) || Number(mandatory) === Number(teller)  ) {
 		notify("Error!", "You may not forward a ticket to youself")
+
 	} else if (Number(frwd) === Number(mandatory)) {
 		notify("Error!", "Forwarding with mandatory to the same teller is not allowed.")
 	}else{
