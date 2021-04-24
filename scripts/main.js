@@ -231,7 +231,7 @@ const getActive = (call=12) => {
 
 			if(data.teller_booking && Number(data.teller_booking.pre_req) > 0){
 				$("#mandatory").html(`<span id="comment_msg_status">Mandatory from teller ${data.teller_booking.teller_from} to ${data.teller_booking.teller_to} via <u>this teller [${data.teller_booking.pre_req}]</u></span>`)
-				notify("info",`Mandatory request from teller ${data.teller_booking.teller_from} `)
+				// notify("info",`Mandatory request from teller ${data.teller_booking.teller_from} `)
 			}else if(data.teller_booking && Number(data.teller_booking.teller_from) > 0){
 				$("#mandatory").html(`<span id="comment_msg_status">Forwarded  from Teller ${ data.teller_booking.teller_from}</span>`)
 			}
@@ -842,11 +842,10 @@ const finalize_forward = () => {
 	let comment = $("#this_comment").val()
 	console.log("forward to", frwd, "mandatory", mandatory, "this teller", teller)
 	console.log(Number(frwd) === Number(mandatory))
-	if (Number(frwd) === Number(teller) || Number(mandatory) === Number(teller)  ) {
+	if (Number(frwd) === Number(teller)) {
 		notify("Error!", "You may not forward a ticket to youself")
-
-	} else if (Number(frwd) === Number(mandatory)) {
-		notify("Error!", "Forwarding with mandatory to the same teller is not allowed.")
+	} else if (frwd === "null" && Number(mandatory)) {
+		notify("Error!", "Forward is required for mandatory to work")
 	}else{
 		if(mandatory !== "null" && frwd === "null"){
 			getData(`${link}/ticket/forward`,"POST",{"branch_id":branch_id,"teller_from":teller,"teller_to":mandatory,"comment" :comment,"mandatory" : null},(data)=>{
