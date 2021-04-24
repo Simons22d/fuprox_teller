@@ -843,10 +843,10 @@ const finalize_forward = () => {
 	console.log("forward to", frwd, "mandatory", mandatory, "this teller", teller)
 	console.log(Number(frwd) === Number(mandatory))
 	if (Number(frwd) === Number(teller)) {
-		notify("Error!", "You may not forward a ticket to youself")
-	} else if (frwd === "null" && Number(mandatory)) {
-		notify("Error!", "Forward is required for mandatory to work")
-	}else{
+	// 	notify("Error!", "You may not forward a ticket to youself")
+	// } else if (frwd === "null" && Number(mandatory)) {
+	// 	notify("Error!", "Forward is required for mandatory to work")
+	// }else{
 		if(mandatory !== "null" && frwd === "null"){
 			getData(`${link}/ticket/forward`,"POST",{"branch_id":branch_id,"teller_from":teller,"teller_to":mandatory,"comment" :comment,"mandatory" : null},(data)=>{
 				$("#booking_type").html("—");
