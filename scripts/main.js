@@ -841,13 +841,14 @@ const finalize_forward = () => {
 	let mandatory = sessionStorage.getItem("mandatory")
 	let comment = $("#this_comment").val()
 	console.log("forward to", frwd, "mandatory", mandatory, "this teller", teller)
-	console.log(Number(frwd) === Number(mandatory))
-	if (Number(frwd) === Number(teller)) {
-	// 	notify("Error!", "You may not forward a ticket to youself")
-	// } else if (frwd === "null" && Number(mandatory)) {
-	// 	notify("Error!", "Forward is required for mandatory to work")
+
+	// // 	notify("Error!", "You may not forward a ticket to youself")
+	// // } else if (frwd === "null" && frwd) {
+	// // 	// notify("Error!", "Forwarding with mandatory to the same teller is not allowed.")
 	// }else{
-		if(mandatory !== "null" && frwd === "null"){
+		if(Number(mandatory) && frwd === "null"){
+			console.log("v")
+
 			getData(`${link}/ticket/forward`,"POST",{"branch_id":branch_id,"teller_from":teller,"teller_to":mandatory,"comment" :comment,"mandatory" : null},(data)=>{
 				$("#booking_type").html("—");
 				$("#ticket_type").html("—");
@@ -858,7 +859,8 @@ const finalize_forward = () => {
 				sio.emit('hello',"")
 				sio.emit('next_ticket',"")
 			})
-		} else if (mandatory === "null"){
+		} else if (Number(frwd) && mandatory === "null"){
+			console.log("s")
 			// we assume this is anormal forward
 			// here we are going to foward the ticket
 			getData(`${link}/ticket/forward`,"POST",{"branch_id":branch_id,"teller_from":teller,"teller_to":frwd,"comment" :comment,"mandatory" : null},(data)=>{
@@ -873,6 +875,7 @@ const finalize_forward = () => {
 				sio.emit('next_ticket',"")
 			})
 		}else{
+			console.log("d")
 			// we assume there is a manadatory task
 			// here we are going to foward the ticket
 			getData(`${link}/ticket/forward`,"POST",{"branch_id":branch_id,"teller_from":teller,"teller_to":frwd,"comment" :comment,"mandatory" : mandatory},(data)=>{
@@ -893,7 +896,6 @@ const finalize_forward = () => {
 		}
 		$("#myModal").hide()
 		$("#comment").html("")
-	}
 
 }
 
