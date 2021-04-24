@@ -847,8 +847,6 @@ const finalize_forward = () => {
 	// // 	// notify("Error!", "Forwarding with mandatory to the same teller is not allowed.")
 	// }else{
 		if(Number(mandatory) && frwd === "null"){
-			console.log("v")
-
 			getData(`${link}/ticket/forward`,"POST",{"branch_id":branch_id,"teller_from":teller,"teller_to":mandatory,"comment" :comment,"mandatory" : null},(data)=>{
 				$("#booking_type").html("—");
 				$("#ticket_type").html("—");
@@ -875,8 +873,6 @@ const finalize_forward = () => {
 				sio.emit('next_ticket',"")
 			})
 		}else{
-			console.log("d")
-			// we assume there is a manadatory task
 			// here we are going to foward the ticket
 			getData(`${link}/ticket/forward`,"POST",{"branch_id":branch_id,"teller_from":teller,"teller_to":frwd,"comment" :comment,"mandatory" : mandatory},(data)=>{
 				if (Number(frwd) && mandatory !== "null") {
@@ -884,7 +880,6 @@ const finalize_forward = () => {
 				}else{
 					notify("Info!", `Ticket forwarded with mandatory from teller ${teller} to teller ${frwd} via ${mandatory}`)
 				}
-
 				$("#booking_type").html("—");
 				$("#ticket_type").html("—");
 				$("#fowarded").html("—");
@@ -894,6 +889,7 @@ const finalize_forward = () => {
 				sio.emit('hello',"")
 			})
 		}
+
 		$("#myModal").hide()
 		$("#comment").html("")
 
