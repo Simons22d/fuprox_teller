@@ -421,9 +421,9 @@ const nextTicket = () => {
 	getData(`${link}/ticket/service`,"POST",{"teller_id" : teller,"branch_id":branch_id},(data)=>{
 		getUpcoming();
 		getNext();
+		sio.emit('next_ticket',"")
 		getActive(120);
 		required_services();
-		sio.emit('next_ticket',"")
 	})
 };
 
@@ -445,7 +445,8 @@ const closeTicket = () =>{
 		$("#fowarded").html("—")
 		$("#activeTicket").html("—")
 		$("#the_comment").html("-")
-		$("#forwa").show()
+		$("#forward").show()
+		$("#in_queue").html(`${in_queue}`)
 	})
 };
 
@@ -841,11 +842,13 @@ const finalize_forward = () => {
 	let mandatory = sessionStorage.getItem("mandatory")
 	let comment = $("#this_comment").val()
 	console.log("forward to", frwd, "mandatory", mandatory, "this teller", teller)
-
-	// // 	notify("Error!", "You may not forward a ticket to youself")
-	// // } else if (frwd === "null" && frwd) {
-	// // 	// notify("Error!", "Forwarding with mandatory to the same teller is not allowed.")
-	// }else{
+	if(Number(frwd) === Number(teller) && mandatory === "null" ){
+		notify("Error!", "You may not forward a ticket to youself")
+	} else if (frwd === "null" && mandatory !== "null" ){
+		notify("Error!", "Error You cannot set mandatory without a forward option.")
+	} else if (frwd !== "null" && Number(mandatory) === Number(teller) ){
+		notify("Error!", "You may not set mandatory station to your teller.")
+	}else{
 		if(Number(mandatory) && frwd === "null"){
 			getData(`${link}/ticket/forward`,"POST",{"branch_id":branch_id,"teller_from":teller,"teller_to":mandatory,"comment" :comment,"mandatory" : null},(data)=>{
 				$("#booking_type").html("—");
@@ -880,6 +883,7 @@ const finalize_forward = () => {
 				}else{
 					notify("Info!", `Ticket forwarded with mandatory from teller ${teller} to teller ${frwd} via ${mandatory}`)
 				}
+
 				$("#booking_type").html("—");
 				$("#ticket_type").html("—");
 				$("#fowarded").html("—");
@@ -889,9 +893,9 @@ const finalize_forward = () => {
 				sio.emit('hello',"")
 			})
 		}
-
-		$("#myModal").hide()
-		$("#comment").html("")
+	}
+	$("#myModal").hide()
+	$("#comment").html("")
 
 }
 
