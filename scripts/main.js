@@ -857,6 +857,13 @@ const finalize_forward = () => {
 				$("#activeTicket").html("—");
 				$("#this_comment").val("")
 				$('#this_comment').hide()
+				$("#booking_type").html("—")
+				$("#ticket_type").html("—")
+				$("#fowarded").html("—")
+				$("#activeTicket").html("—")
+				$("#the_comment").html("-")
+				$("#forward").show()
+				$("#in_queue").html(`${in_queue}`)
 				sio.emit('hello',"")
 				sio.emit('next_ticket',"")
 			})
@@ -872,17 +879,24 @@ const finalize_forward = () => {
 				$("#activeTicket").html("—");
 				$("#this_comment").val("")
 				$('#this_comment').hide()
+				$("#booking_type").html("—")
+				$("#ticket_type").html("—")
+				$("#fowarded").html("—")
+				$("#activeTicket").html("—")
+				$("#the_comment").html("-")
+				$("#forward").show()
+				$("#in_queue").html(`${in_queue}`)
 				sio.emit('hello',"")
 				sio.emit('next_ticket',"")
 			})
 		}else{
 			// here we are going to foward the ticket
 			getData(`${link}/ticket/forward`,"POST",{"branch_id":branch_id,"teller_from":teller,"teller_to":frwd,"comment" :comment,"mandatory" : mandatory},(data)=>{
-				if (Number(frwd) && mandatory !== "null") {
-					notify("Info!", `Kickback request to teller ${mandatory} initiated`)
-				}else{
-					notify("Info!", `Ticket forwarded with mandatory from teller ${teller} to teller ${frwd} via ${mandatory}`)
-				}
+				// if (Number(frwd) && mandatory !== "null") {
+				// 	notify("Info!", `Kickback request to teller ${mandatory} initiated`)
+				// }else{
+				// 	notify("Info!", `Ticket forwarded with mandatory from teller ${teller} to teller ${frwd} via ${mandatory}`)
+				// }
 
 				$("#booking_type").html("—");
 				$("#ticket_type").html("—");
@@ -890,6 +904,13 @@ const finalize_forward = () => {
 				$("#activeTicket").html("—");
 				$("#this_comment").val("")
 				$('#this_comment').hide()
+				$("#booking_type").html("—")
+				$("#ticket_type").html("—")
+				$("#fowarded").html("—")
+				$("#activeTicket").html("—")
+				$("#the_comment").html("-")
+				$("#forward").show()
+				$("#in_queue").html(`${in_queue}`)
 				sio.emit('hello',"")
 			})
 		}
