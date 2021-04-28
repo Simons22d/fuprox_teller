@@ -838,10 +838,11 @@ $("#upload_video").on("click",(e)=>{
 })
 
 const finalize_forward = () => {
+	$("#in_queue").html(`${in_queue}`)
 	let frwd = sessionStorage.getItem("forwarded_to")
 	let mandatory = sessionStorage.getItem("mandatory")
 	let comment = $("#this_comment").val()
-	console.log("forward to", frwd, "mandatory", mandatory, "this teller", teller)
+
 	if(Number(frwd) === Number(teller) && mandatory === "null" ){
 		notify("Error!", "You may not forward a ticket to youself")
 	} else if (frwd === "null" && mandatory !== "null" ){
@@ -855,20 +856,14 @@ const finalize_forward = () => {
 				$("#ticket_type").html("—");
 				$("#fowarded").html("—");
 				$("#activeTicket").html("—");
-				$("#this_comment").val("")
 				$('#this_comment').hide()
-				$("#booking_type").html("—")
-				$("#ticket_type").html("—")
-				$("#fowarded").html("—")
-				$("#activeTicket").html("—")
 				$("#the_comment").html("-")
 				$("#forward").show()
-				$("#in_queue").html(`${in_queue}`)
+				$("#mandatory").html("")
 				sio.emit('hello',"")
 				sio.emit('next_ticket',"")
 			})
 		} else if (Number(frwd) && mandatory === "null"){
-			console.log("s")
 			// we assume this is anormal forward
 			// here we are going to foward the ticket
 			getData(`${link}/ticket/forward`,"POST",{"branch_id":branch_id,"teller_from":teller,"teller_to":frwd,"comment" :comment,"mandatory" : null},(data)=>{
@@ -877,40 +872,25 @@ const finalize_forward = () => {
 				$("#ticket_type").html("—");
 				$("#fowarded").html("—");
 				$("#activeTicket").html("—");
-				$("#this_comment").val("")
 				$('#this_comment').hide()
-				$("#booking_type").html("—")
-				$("#ticket_type").html("—")
-				$("#fowarded").html("—")
-				$("#activeTicket").html("—")
 				$("#the_comment").html("-")
 				$("#forward").show()
-				$("#in_queue").html(`${in_queue}`)
+				$("#mandatory").html("")
 				sio.emit('hello',"")
 				sio.emit('next_ticket',"")
 			})
 		}else{
 			// here we are going to foward the ticket
 			getData(`${link}/ticket/forward`,"POST",{"branch_id":branch_id,"teller_from":teller,"teller_to":frwd,"comment" :comment,"mandatory" : mandatory},(data)=>{
-				// if (Number(frwd) && mandatory !== "null") {
-				// 	notify("Info!", `Kickback request to teller ${mandatory} initiated`)
-				// }else{
-				// 	notify("Info!", `Ticket forwarded with mandatory from teller ${teller} to teller ${frwd} via ${mandatory}`)
-				// }
-
 				$("#booking_type").html("—");
 				$("#ticket_type").html("—");
 				$("#fowarded").html("—");
 				$("#activeTicket").html("—");
-				$("#this_comment").val("")
 				$('#this_comment').hide()
 				$("#booking_type").html("—")
-				$("#ticket_type").html("—")
-				$("#fowarded").html("—")
-				$("#activeTicket").html("—")
 				$("#the_comment").html("-")
+				$("#mandatory").html("")
 				$("#forward").show()
-				$("#in_queue").html(`${in_queue}`)
 				sio.emit('hello',"")
 			})
 		}
