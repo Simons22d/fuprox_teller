@@ -334,27 +334,29 @@ const getNext = () =>{
 			}
 		$("#nextTicket").html(final)
 	})
+	getUpcoming()
+	updateQueue()
 };
 
 
 const getUpcoming = () =>{
-	let mapper = ["","bookingOne","bookingTwo","bookingThree","bookingFour","bookingFive"]
+	let mapper = ["bookingOne","bookingTwo","bookingThree","bookingFour","bookingFive"]
 	getData(`${link}/get/upcoming/tickets`,"POST",{"teller_id":teller,"branch_id":branch_id},(data)=>{
 		console.log("Upcoming", data)
 		console.log("Address", addr)
-		if(data.length === 4){
+		if(data.length === 3){
 			$("#bookingFive").html("—")
 			$("#bookingFour").html("—")
-		}else if(data.length === 3){
-			$("#bookingFive").html("—")
-			$("#bookingFour").html("—")
-			$("#bookingThree").html("—")
 		}else if(data.length === 2){
 			$("#bookingFive").html("—")
 			$("#bookingFour").html("—")
 			$("#bookingThree").html("—")
-			$("#bookingTwo").html("—")
 		}else if(data.length === 1){
+			$("#bookingFive").html("—")
+			$("#bookingFour").html("—")
+			$("#bookingThree").html("—")
+			$("#bookingTwo").html("—")
+		}else if(data.length === 0){
 			$("#bookingFive").html("—")
 			$("#bookingFour").html("—")
 			$("#bookingThree").html("—")
@@ -365,13 +367,9 @@ const getUpcoming = () =>{
 		if(data.length){
 			if(data.length){
 				data.map((data,index)=>{
-					if(index === 0){
-
-
-					}else{
+					console.log(data)
 						data_ticket = data.ticket ? data.ticket : "—"
 						$(`#${mapper[index]}`).html(`${data_ticket}`)
-					}
 				})
 				// console.log("number of tickets",data.length)
 
@@ -1059,7 +1057,7 @@ const updateQueue = () =>{
 			$("#in_queue").html(`In Queue — ${data}`)
 		}else{
 			localStorage.setItem("inqueu", false)
-			// $("#in_queue").html(`Queue Empty`)
+			$("#in_queue").html(`Queue Empty`)
 		}
 	})
 }
