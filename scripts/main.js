@@ -233,13 +233,20 @@ const getActive = (call=12) => {
 				$("#mandatory").html(`<span id="comment_msg_status">Mandatory from teller ${data.teller_booking.teller_from} to ${data.teller_booking.teller_to} via <u>this teller [${data.teller_booking.pre_req}]</u></span>`)
 				// notify("info",`Mandatory request from teller ${data.teller_booking.teller_from} `)
 			}else if(data.teller_booking && Number(data.teller_booking.teller_from) > 0){
-				$("#mandatory").html(`<span id="comment_msg_status">Forwarded  from Teller ${ data.teller_booking.teller_from}</span>`)
+				if (data.start === "99999999" && data.user === 99999999){
+					$("#mandatory").html(`<span id="comment_msg_status">Kickback from Teller ${ data.teller_booking.teller_from}</span>`)
+				}else{
+					$("#mandatory").html(`<span id="comment_msg_status">Forwarded  from Teller ${ data.teller_booking.teller_from}</span>`)
+				}
 			}
 			$("#this_comment").show()
 			let fowarded = data.forwarded ? "Fowarded" : "Not Fowarded"
-			let is_instant = data.is_instant ? `<span href=\"#\" class=\"badge badge-info\" style="font-size:12px">Insant</span>` : `<span href=\"#\" class=\"badge badge-dark\" style="font-size:12px">Not Insant</span>`
+			let is_instant = data.is_instant ? `<span href=\"#\" class=\"badge badge-info\" style="font-size:12px">Insant Booking</span>` : `<span href=\"#\" class=\"badge badge-primary\" style="font-size:12px">Onsite Booking</span>`
 			if (data.is_medical && data.user || data.user && !data.is_instant){
-				is_instant = `<span href=\"#\" class=\"badge badge-success\" style="font-size:12px">Online</span>`
+				is_instant = `<span href=\"#\" class=\"badge badge-success\" style="font-size:12px">Online Booking</span>`
+			}
+			if (data.start === "99999999" && data.user === 99999999){
+				is_instant = `<span href=\"#\" class=\"badge badge-warning\" style="font-size:12px">Mandatory Request</span>`
 			}
 			getComments(data.id)
 			let service_name = data.service_name
