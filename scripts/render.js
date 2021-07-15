@@ -18,13 +18,3 @@ btn_login.addEventListener("click",()=>{
 	console.log(email,password)
 })
 
-// console.log("login btn clicked")
-// 	let email = $("#email").val()
-// 	let password = $("#password").val()
-// 	console.log(email.length,password.length);
-// 	// if(email && password){
-// 	// 	console.log("final ...")
-// 	// 	ipc.sendSync('entry-accepted', 'ping')
-// 	// }else{
-// 	// 	console.log("working progress ...")
-// 	// }

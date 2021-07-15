@@ -32,7 +32,7 @@ const verifyKey = (me) => {
 			$("#branch").html(`
 			<img src="./images/key.png" alt="" height="40px" class="mt-3">
 			<div class="mt-2">Error! Application not activated</div>
-			<div class="text-muted">Please make sure you active the application from the backend provided</div>
+			<div class="text-muted">Please make sure the system is activated for use</div>
 			`)
 			$("#services").hide()
 			localStorage.setItem("tellerNumber","")
@@ -217,7 +217,7 @@ if (input.files && input.files[0]) {
 
 const getActive = (call=12) => {
 		getData(`${link}/get/active/ticket`,"POST",{"teller_id":teller,"branch_id" : branch_id},(data)=>{
-			console.log("GET ACTIVE DATA",data)
+
 		let final = "";
 		let count = 0;
 		for(x in data){count++;}
@@ -239,6 +239,7 @@ const getActive = (call=12) => {
 					$("#mandatory").html(`<span id="comment_msg_status">Forwarded  from Teller ${ data.teller_booking.teller_from}</span>`)
 				}
 			}
+
 			$("#this_comment").show()
 			let fowarded = data.forwarded ? "Fowarded" : "Not Fowarded"
 			let is_instant = data.is_instant ? `<span href=\"#\" class=\"badge badge-info\" style="font-size:12px">Insant Booking</span>` : `<span href=\"#\" class=\"badge badge-primary\" style="font-size:12px">Onsite Booking</span>`
@@ -248,6 +249,7 @@ const getActive = (call=12) => {
 			if (data.start === "99999999" && data.user === 99999999){
 				is_instant = `<span href=\"#\" class=\"badge badge-warning\" style="font-size:12px">Mandatory Request</span>`
 			}
+
 			getComments(data.id)
 			let service_name = data.service_name
 				$("#booking_type").html(is_instant)
@@ -255,6 +257,7 @@ const getActive = (call=12) => {
 				$("#fowarded").html(fowarded)
 				sessionStorage.setItem("active_ticket",data['id'])
 			final += `${data.ticket}`;
+
 			if (call ===120 ){
 				// testing
 				let handle = $("#nxtTicket")

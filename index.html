@@ -62,14 +62,15 @@
 		<!-- <div class="col-lg-2">
 			<input type="text" class="form-control form-control-sm" name="" id="verify_ticket">
 		</div> -->
-		<div class="col-lg-1 float-right pl-5" >
+	
+		<div class="col-lg-1 float-right pl-2" >
 			<div class="btn btn-sm  btn-outline-secondary gellix_header" style="border:2px solid lightgray;" onclick="reload()">Reload</div>
 		</div>
 
-		<div class="col-lg-1 float-right pl-5" >
+		<div class="col-lg-1 float-right" >
 			<!-- <div class="btn btn-sm btn-outline-dark" onclick="verify_ticket()">verify Ticket</div> -->
 			<img src="./images/manageSolutions.png" id="settings"  class="ml-3" height="20px">
-
+			<span id="server_status" style="color:#0f1;" >&nbsp;&nbsp;</span>
 		</div>
 	</div>
 	<!-- verify -->
@@ -79,9 +80,13 @@
 			<img src="./images/errors.png" alt="" height="150px" class="mt-3">
 			<div class="mt-3">Error! No Connection</div>
 			<div class="text-muted">Application cannot connect to the server</div>
+			<div class="text-info">Kindly, Wait a few seconds as the application connects to the server.</div>
+			<br>
 			<div class="text-muted mt-4">Confirm</div>
-			<div class="text-muted">1. Please make address is set in settings</div>
-			<div class="text-muted">2. Ensure the backend is up</div>
+			<div class="text-muted">1. Please make sure the system is activated for use.</div>
+			<div class="text-muted">2. Ensure the server is up.</div>
+			<div class="text-muted">3. Make sure your machine has s stable network connection.</div>
+
 		</div><br>
 		<!-- <div class="col-lg-12 text-muted text-muted" ><span class="text-muted" id="date"></span></div> -->
 		<div class="col-lg-12 text-info" id="teller_info" style="display:none">
